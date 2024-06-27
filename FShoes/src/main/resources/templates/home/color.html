@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="UTF-8"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{home/index.html}" xmlns:form="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Color Page</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <!--Content of the page-->
+    <div class="content-wrapper">
+        <h3>List Of Color</h3>
+        <div class="row">
+            <div class="col-12 grid-margin">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Insert
+                </button>
+
+                <!-- Insert Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Insert Color</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/colors/" method="post">
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">Color Name:</label>
+                                        <input type="text" name="colorName" class="form-control" id="recipient-name"
+                                               placeholder="Enter color name">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Insert</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">List Color</h4>
+                        <h6 style="color: red" th:text="${message}"></h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Color</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="color, loop : ${colors}">
+                                    <td th:text="${loop.index + 1}"></td>
+                                    <td th:text="${color.name}"></td>
+                                    <td th:text="${#temporals.format(color.createdAt, 'dd-MM-yyyy')}"></td>
+                                    <td class="text-danger">
+                                        <a th:href="@{'/colors/'+${color.id}}">
+                                            <i class="ti-close" style="margin-right: 15px"></i>
+                                        </a>
+                                        <a th:href="@{'/colors/detail/'+${color.id}}">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
