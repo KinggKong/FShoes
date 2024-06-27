@@ -1,7 +1,6 @@
 package com.example.fshoes.services.impl;
 
 
-import com.example.fshoes.entities.Color;
 import com.example.fshoes.entities.Size;
 import com.example.fshoes.repositories.SizeRepo;
 import com.example.fshoes.services.ISizeService;

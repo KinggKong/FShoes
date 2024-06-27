@@ -15,7 +15,7 @@
 
   <!--Content of the page-->
   <div class="content-wrapper">
-    <h3>List Of Color</h3>
+    <h3>List Of Size</h3>
     <div class="row">
       <div class="col-12 grid-margin">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -28,16 +28,16 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Insert Color</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Insert size</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="/colors/" method="post">
+                <form action="/sizes/add" method="post">
                   <div class="mb-3">
                     <label for="recipient-name" class="col-form-label">Size Name:</label>
-                    <input type="text" name="colorName" class="form-control" id="recipient-name"
-                           placeholder="Enter color name">
+                    <input type="text" name="sizeName" class="form-control" id="recipient-name"
+                           placeholder="Enter size name">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
@@ -64,21 +64,27 @@
                 <thead>
                 <tr>
                   <th>STT</th>
-                  <th>Color</th>
+                  <th>ID</th>
+                  <th>Size name</th>
                   <th>Created At</th>
+                  <th>Update At</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="color, loop : ${colors}">
+                <tr th:each="size, loop : ${sizes}">
                   <td th:text="${loop.index + 1}"></td>
-                  <td th:text="${color.name}"></td>
-                  <td th:text="${#temporals.format(color.createdAt, 'dd-MM-yyyy')}"></td>
+                  <td th:text="${size.id}"></td>
+                  <td th:text="${size.name}"></td>
+                  <td th:text="${#temporals.format(size.createdAt, 'dd-MM-yyyy')}"></td>
+                  <td th:text="${#temporals.format(size.updatedAt, 'dd-MM-yyyy')}"></td>
+                  <td th:text="${size.status == 1 ? 'Đang hoạt động' : 'Ngừng hoạt động'}"></td>
                   <td class="text-danger">
-                    <a th:href="@{'/colors/'+${color.id}}">
+                    <a th:href="@{/sizes/delete/{id}(id=${size.id})}" style="color: red; font-weight: bold;">
                       <i class="ti-close" style="margin-right: 15px"></i>
                     </a>
-                    <a th:href="@{'/colors/detail/'+${color.id}}">
+                    <a th:href="@{/sizes/detail/{id}(id=${size.id})}">
                       <i class="ti-pencil"></i>
                     </a>
                   </td>

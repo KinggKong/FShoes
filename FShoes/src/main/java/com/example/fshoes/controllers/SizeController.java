@@ -1,9 +1,7 @@
 package com.example.fshoes.controllers;
 
 
-import com.example.fshoes.entities.Color;
 import com.example.fshoes.entities.Size;
-import com.example.fshoes.services.impl.ColorService;
 import com.example.fshoes.services.impl.SizeService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -11,40 +9,47 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/size")
+@RequestMapping("/sizes")
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 
 public class SizeController {
     SizeService sizeService;
 
-    @GetMapping("")
+    @GetMapping("/list")
     public String index(Model model) {
         return "home/size";
     }
 
-    @PostMapping("/")
+    @ModelAttribute("sizes")
+    public List<Size> sizes() {
+        return sizeService.getSize();
+    }
+
+    @PostMapping("/add")
     public String AddSize(@RequestParam("sizeName") String sizeName) {
         sizeService.addSize(sizeName);
-        return "redirect:/size";
+        return "redirect:/sizes/list";
     }
 
     @PostMapping("/update")
-    public String UpdateColor(@ModelAttribute("size") Size size) {
+    public String UpdateSize(@ModelAttribute("size") Size size) {
         sizeService.updateSize(size);
-        return "redirect:/size";
+        return "redirect:/sizes/list";
     }
 
     @GetMapping("/detail/{id}")
-    public String getColorDetail(@PathVariable("id") Long sizeID, Model model) {
+    public String getSizeDetail(@PathVariable("id") Long sizeID, Model model) {
         model.addAttribute("size", sizeService.findSizeById(sizeID));
         return "home/size";
     }
 
-    @GetMapping("/{id}")
-    public String DeleteColor(@PathVariable("id") Long idSize) {
+    @GetMapping("delete/{id}")
+    public String DeleteSize(@PathVariable("id") Long idSize) {
         sizeService.deleteSize(idSize);
-        return "redirect:/size";
+        return "redirect:/sizes/list";
     }
 }
