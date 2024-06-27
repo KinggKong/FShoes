@@ -30,9 +30,10 @@ public class SoleService implements ISoleService {
     }
 
     @Override
-    public void add(String colorName) {
+    public void add(String soleName) {
         Sole sole = new Sole();
-        sole.setName(colorName);
+        sole.setName(soleName);
+        sole.setStatus(1);
         soleRepo.save(sole);
     }
 

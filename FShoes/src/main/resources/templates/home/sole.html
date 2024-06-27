@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="UTF-8"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{home/index.html}" xmlns:form="http://www.w3.org/1999/html">
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{home/index.html}" xmlns:form="http://www.w3.org/1999/html"
+      >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 <div layout:fragment="content">
@@ -13,26 +17,28 @@
         <h3>List Of Sole</h3>
         <div class="row">
             <div class="col-12 grid-margin">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Insert
-                </button>
-
+               <div>
+                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                       Insert
+                   </button>
+                   <button data-bs-toggle="modal" data-bs-target="#exampleModal_update" class="btn btn-warning" th:text="'Update ' + ${sole.name}" th:hidden="${sole.id == null}"  ></button>
+               </div>
                 <!-- Insert Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Insert Color</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Insert Sole</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="/colors/" method="post">
+                                <form action="/soles/" method="post">
                                     <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Color Name:</label>
-                                        <input type="text" name="colorName" class="form-control" id="recipient-name"
-                                               placeholder="Enter color name">
+                                        <label for="recipient-name" class="col-form-label">Sole Name:</label>
+                                        <input type="text" name="soleName" class="form-control" id="recipient-name"
+                                               placeholder="Enter sole name">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
@@ -48,11 +54,47 @@
         </div>
 
 
+
+<!-- Update Modal -->
+
+        <div class="modal fade" id="exampleModal_update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel_update">Sole Detail</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <form th:action="@{/soles/update}" th:object="${sole}" method="post">
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Sole Name:</label>
+                                <input type="text" name="name" th:field="*{name}"  class="form-control" id="recipient-name-update"
+                                       placeholder="Enter sole name">
+                            </div>
+
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label" th:text="'Create at: ' + ${sole.getCreatedAt()}"> </label>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">List Color</h4>
+                        <h4 class="card-title">List Sole</h4>
                         <h6 style="color: red" th:text="${message}"></h6>
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -65,15 +107,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="color, loop : ${colors}">
+                                <tr th:each="sole, loop : ${soles}">
                                     <td th:text="${loop.index + 1}"></td>
-                                    <td th:text="${color.name}"></td>
-                                    <td th:text="${#temporals.format(color.createdAt, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${sole.name}"></td>
+                                    <td th:text="${#temporals.format(sole.createdAt, 'dd-MM-yyyy')}"></td>
                                     <td class="text-danger">
-                                        <a th:href="@{'/colors/'+${color.id}}">
+                                        <a th:href="@{'/soles/delete/'+${sole.id}}">
                                             <i class="ti-close" style="margin-right: 15px"></i>
                                         </a>
-                                        <a th:href="@{'/colors/detail/'+${color.id}}">
+<!--                                        data-bs-toggle="modal" data-bs-target="#exampleModal_update"-->
+                                        <a th:href="@{'/soles/detail/'+${sole.id}}"  >
                                             <i class="ti-pencil"></i>
                                         </a>
                                     </td>
