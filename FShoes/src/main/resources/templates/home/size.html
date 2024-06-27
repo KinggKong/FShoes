@@ -81,12 +81,15 @@
                   <td th:text="${#temporals.format(size.updatedAt, 'dd-MM-yyyy')}"></td>
                   <td th:text="${size.status == 1 ? 'Đang hoạt động' : 'Ngừng hoạt động'}"></td>
                   <td class="text-danger">
-                    <a th:href="@{/sizes/delete/{id}(id=${size.id})}" style="color: red; font-weight: bold;">
+
+                    <a th:href="@{/sizes/delete/{id}(id=${size.id})}" class="text-danger">
                       <i class="ti-close" style="margin-right: 15px"></i>
                     </a>
-                    <a th:href="@{/sizes/detail/{id}(id=${size.id})}">
+
+                    <a th:href="@{/sizes/detail/{id}(id=${size.id})}" data-bs-toggle="modal" data-bs-target="#detailModal">
                       <i class="ti-pencil"></i>
                     </a>
+
                   </td>
                 </tr>
                 </tbody>
@@ -97,6 +100,37 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Modal Detail and Update -->
+<!--  <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-dialog-centered">-->
+<!--      <div class="modal-content">-->
+<!--        <div class="modal-header">-->
+<!--          <h5 class="modal-title" id="detailModalLabel">Detail and Update Size</h5>-->
+<!--          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--        </div>-->
+<!--        <div class="modal-body">-->
+<!--          <form action="/sizes/update" method="post">-->
+<!--            <input type="hidden" id="id" name="id" th:value="${size.id}">-->
+<!--            <div class="mb-3">-->
+<!--              <label for="name" class="col-form-label">Size Name:</label>-->
+<!--              <input type="text" name="name" class="form-control" id="name" th:value="${size.name}">-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<!--              <button type="submit" class="btn btn-primary">Update</button>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+
 </div>
+
+
 </body>
 </html>

@@ -35,9 +35,10 @@ public class SizeService implements ISizeService {
 
     @Override
     public void addSize(String sizeName) {
-        Size newSize = new Size();
-        newSize.setName(sizeName);
-        sizeRepo.save(newSize);
+        Size size = new Size();
+        size.setName(sizeName);
+        size.setStatus(1);
+        sizeRepo.save(size);
     }
 
     @Override
