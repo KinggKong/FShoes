@@ -13,8 +13,6 @@ public interface IColorService {
 
     void addColor(String colorName);
 
-    void addSize(String colorName);
-
     void deleteColor(Long id);
 
     void updateColor(Color color);
