@@ -37,7 +37,7 @@
                   <div class="mb-3">
                     <label for="recipient-name" class="col-form-label">Size Name:</label>
                     <input type="text" name="sizeName" class="form-control" id="recipient-name"
-                           placeholder="Enter size name">
+                           placeholder="Enter size name" required>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
@@ -99,10 +99,50 @@
         </div>
       </div>
     </div>
+
+<!--    Phân trang -->
+    <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+      <ul class="pagination">
+        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+          <a class="page-link" th:href="@{/sizes/list(p=0)}">First</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+          <a class="page-link" th:href="@{/sizes/list(p=${currentPage - 1})}">Previous</a>
+        </li>
+
+        <!-- Hiển thị trang hiện tại -->
+        <li class="page-item active">
+          <a class="page-link" th:href="@{/sizes/list(p=${currentPage})}" th:text="${currentPage + 1}">1</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+          <a class="page-link" th:href="@{/sizes/list(p=${currentPage + 1})}">Next</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+          <a class="page-link" th:href="@{/sizes/list(p=${totalPages - 1})}">Last</a>
+        </li>
+      </ul>
+    </nav>
+
+
+<!--    <nav aria-label="Page navigation example" class="d-flex justify-content-end">-->
+<!--      <ul class="pagination">-->
+<!--        <li class="page-item"><a class="page-link" th:href="@{/sizes/list(p=0)}">First</a></li>-->
+<!--        <li class="page-item">-->
+<!--          <a class="page-link" th:href="@{/sizes/list(p=${sizes.number > 0 ? sizes.number - 1 : 0})}">Previous</a>-->
+<!--        </li>-->
+<!--        <li class="page-item">-->
+<!--          <a class="page-link" th:href="@{/sizes/list(p=${sizes.number < sizes.totalPages - 1 ? sizes.number + 1 : sizes.totalPages - 1})}">Next</a>-->
+<!--        </li>-->
+<!--        <li class="page-item"><a class="page-link" th:href="@{/sizes/list(p=${sizes.totalPages - 1})}">Last</a></li>-->
+<!--      </ul>-->
+<!--    </nav>-->
+
   </div>
 
 
-  <!-- Modal Detail and Update -->
+
+
+<!--&lt;!&ndash;   Modal Detail and Update&ndash;&gt;-->
 <!--  <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">-->
 <!--    <div class="modal-dialog modal-dialog-centered">-->
 <!--      <div class="modal-content">-->

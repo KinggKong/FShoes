@@ -5,6 +5,11 @@ import com.example.fshoes.entities.Size;
 import com.example.fshoes.services.impl.SizeService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +22,34 @@ import java.util.List;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 
 public class SizeController {
+
+    @Autowired
     SizeService sizeService;
 
+    private static final int Page_size = 5;
+
+//    @GetMapping("/list")
+//    public String listSize(Model model, @RequestParam(name = "p", defaultValue = "0") int p) {
+//        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+//        Pageable pageable = PageRequest.of(p, Page_size, sort);
+//        Page<Size> page = sizeService.pagination(pageable);
+//        model.addAttribute("sizes", page);
+//        return "home/size";
+//    }
+
     @GetMapping("/list")
-    public String index(Model model) {
+    public String listSize(Model model, @RequestParam(name = "p", defaultValue = "0") int p) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(p, Page_size, sort);
+        Page<Size> page = sizeService.pagination(pageable);
+        int totalPages = page.getTotalPages();
+        model.addAttribute("sizes", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", p);
         return "home/size";
     }
 
-    @ModelAttribute("sizes")
-    public List<Size> sizes() {
-        return sizeService.getSize();
-    }
+
 
     @PostMapping("/add")
     public String AddSize(@RequestParam("sizeName") String sizeName) {
