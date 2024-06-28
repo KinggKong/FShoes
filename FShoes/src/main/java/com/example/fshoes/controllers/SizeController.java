@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -52,8 +53,9 @@ public class SizeController {
 
 
     @PostMapping("/add")
-    public String AddSize(@RequestParam("sizeName") String sizeName) {
+    public String AddSize(@RequestParam("sizeName") String sizeName, RedirectAttributes redirectAttributes) {
         sizeService.addSize(sizeName);
+        redirectAttributes.addFlashAttribute("message", "Thêm dữ liệu thành công!");
         return "redirect:/sizes/list";
     }
 
@@ -70,8 +72,10 @@ public class SizeController {
     }
 
     @GetMapping("delete/{id}")
-    public String DeleteSize(@PathVariable("id") Long idSize) {
+    public String DeleteSize(@PathVariable("id") Long idSize, RedirectAttributes redirectAttributes) {
         sizeService.deleteSize(idSize);
+        redirectAttributes.addFlashAttribute("message1", "Xóa dữ liệu thành công!");
+
         return "redirect:/sizes/list";
     }
 }
