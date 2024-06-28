@@ -37,6 +37,7 @@ public class SizeController {
 //        return "home/size";
 //    }
 
+
     @GetMapping("/list")
     public String listSize(Model model, @RequestParam(name = "p", defaultValue = "0") int p) {
         Sort sort = Sort.by(Sort.Direction.ASC, "id");
@@ -48,7 +49,6 @@ public class SizeController {
         model.addAttribute("currentPage", p);
         return "home/size";
     }
-
 
 
     @PostMapping("/add")
