@@ -41,7 +41,7 @@ public class SizeController {
 
     @GetMapping("/list")
     public String listSize(Model model, @RequestParam(name = "p", defaultValue = "0") int p) {
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(p, Page_size, sort);
         Page<Size> page = sizeService.pagination(pageable);
         int totalPages = page.getTotalPages();
