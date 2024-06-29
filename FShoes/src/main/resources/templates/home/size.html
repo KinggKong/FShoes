@@ -28,6 +28,11 @@
             <span th:text="${message1}"></span>
         </div>
 
+        <!-- Hiển thị thông báo sau khi xóa thành công -->
+        <div th:if="${message2}" class="alert alert-primary" role="alert" id="success-alert2">
+            <span th:text="${message2}"></span>
+        </div>
+
         <div class="row">
             <div class="col-12 grid-margin">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -59,6 +64,35 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Update Modal -->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel1"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel1">Update size</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/sizes/update" method="post">
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Size Name:</label>
+                                <input type="text" name="name" class="form-control" id="recipient-name-update"
+                                       placeholder="Enter size name" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -142,14 +176,4 @@
 
 </body>
 </html>
-
-<!--<div class="mb-3">-->
-<!--    <label for="recipient-name" class="col-form-label">Size Name:</label>-->
-<!--    <form:input path="name" class="form-control" id="recipient-name" placeholder="Enter size name" required />-->
-<!--</div>-->
-<!--<div class="mb-3">-->
-<!--    <label for="status" class="col-form-label">Size Status (35-45):</label>-->
-<!--    <form:input path="status" class="form-control" id="status" placeholder="Enter size status" required />-->
-<!--    <form:errors path="status" cssClass="text-danger" />-->
-<!--</div>-->
 

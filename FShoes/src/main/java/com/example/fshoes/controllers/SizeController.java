@@ -60,14 +60,16 @@ public class SizeController {
     }
 
     @PostMapping("/update")
-    public String UpdateSize(@ModelAttribute("size") Size size) {
+    public String UpdateSize(@ModelAttribute("size") Size size, RedirectAttributes redirectAttributes) {
         sizeService.updateSize(size);
+        redirectAttributes.addFlashAttribute("message2", "Sửa dữ liệu thành công!");
         return "redirect:/sizes/list";
     }
 
     @GetMapping("/detail/{id}")
     public String getSizeDetail(@PathVariable("id") Long sizeID, Model model) {
-        model.addAttribute("size", sizeService.findSizeById(sizeID));
+        Size size = sizeService.findSizeById(sizeID);
+        model.addAttribute("size", size);
         return "home/size";
     }
 
