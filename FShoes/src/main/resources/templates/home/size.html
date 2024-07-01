@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="UTF-8"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{home/index.html}" xmlns:form="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Size Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <!--Content of the page-->
+    <div class="content-wrapper">
+        <h3>List Of Size</h3>
+
+        <!-- Hiển thị thông báo sau khi insert thành công -->
+        <div th:if="${message}" class="alert alert-success" role="alert" id="success-alert">
+            <span th:text="${message}"></span>
+        </div>
+
+        <!-- Hiển thị thông báo sau khi xóa thành công -->
+        <div th:if="${message1}" class="alert alert-danger" role="alert" id="success-alert1">
+            <span th:text="${message1}"></span>
+        </div>
+
+        <!-- Hiển thị thông báo sau khi xóa thành công -->
+        <div th:if="${message2}" class="alert alert-primary" role="alert" id="success-alert2">
+            <span th:text="${message2}"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-12 grid-margin">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Insert
+                </button>
+
+                <!-- Insert Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Insert size</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/sizes/add" method="post">
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">Size Name:</label>
+                                        <input type="text" name="sizeName" class="form-control" id="recipient-name"
+                                               placeholder="Enter size name" required>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Insert</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Update Modal -->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel1"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel1">Update size</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/sizes/update" method="post">
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Size Name:</label>
+                                <input type="text" name="name" class="form-control" id="recipient-name-update"
+                                       placeholder="Enter size name" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">List Size</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>ID</th>
+                                    <th>Size name</th>
+                                    <th>Created At</th>
+                                    <th>Update At</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="size, loop : ${sizes}">
+                                    <td th:text="${loop.index + 1}"></td>
+                                    <td th:text="${size.id}"></td>
+                                    <td th:text="${size.name}"></td>
+                                    <td th:text="${#temporals.format(size.createdAt, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#temporals.format(size.updatedAt, 'dd-MM-yyyy')}"></td>
+                                    <td th:classappend="${size.status == 1 ? 'text-success' : 'text-danger'}"
+                                        th:text="${size.status == 1 ? 'Đang hoạt động' : 'Ngừng hoạt động'}">
+                                    </td>
+                                    <td class="text-danger">
+
+                                        <a th:href="@{/sizes/delete/{id}(id=${size.id})}" class="text-danger">
+                                            <i class="ti-close" style="margin-right: 15px"></i>
+                                        </a>
+
+                                        <a th:href="@{/sizes/detail/{id}(id=${size.id})}" data-bs-toggle="modal"
+                                           data-bs-target="#detailModal">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phân trang -->
+        <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/sizes/list(p=0)}">First</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/sizes/list(p=${currentPage - 1})}">Previous</a>
+                </li>
+
+                <!-- Hiển thị trang hiện tại -->
+                <li class="page-item active">
+                    <a class="page-link" th:href="@{/sizes/list(p=${currentPage})}" th:text="${currentPage + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/sizes/list(p=${currentPage + 1})}">Next</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/sizes/list(p=${totalPages - 1})}">Last</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+</body>
+</html>
+
