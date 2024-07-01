@@ -27,7 +27,6 @@ public class BaseEntity {
 
     @PreUpdate
     protected void onUpdate() {
-        createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 }

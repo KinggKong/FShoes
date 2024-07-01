@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="UTF-8"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{home/index.html}" xmlns:form="http://www.w3.org/1999/html">
 <head>
@@ -8,11 +9,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Color Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
 <div layout:fragment="content">
-
+    <!--Start layout-->
     <!--Content of the page-->
     <div class="content-wrapper">
         <h3>List Of Color</h3>
@@ -78,19 +80,78 @@
                                         <a th:href="@{'/colors/'+${color.id}}">
                                             <i class="ti-close" style="margin-right: 15px"></i>
                                         </a>
-                                        <a th:href="@{'/colors/detail/'+${color.id}}">
-                                            <i class="ti-pencil"></i>
-                                        </a>
+                                        <button class="updateClick" th:data="${color.id}"><i class="ti-pencil"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!--Modal Update-->
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="updateModalLabel">Update Color</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/colors/update" method="post">
+                            <div class="mb-3">
+                                <input hidden="hidden" name="colorId" id="updateId">
+                                <label for="updateName" class="col-form-label">Color Name:</label>
+                                <input type="text" name="colorName" class="form-control" id="updateName"
+                                       placeholder="Enter color name">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <h1 id="testShow">Hello</h1>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.updateClick', function () {
+                var colorId = $(this).attr('data');
+                console.log(colorId);
+                activity(colorId);
+            });
+
+            function activity(colorId) {
+                $.ajax({
+                    url: "/colors/detail/" + colorId,
+                    type: "GET",
+                    success: function (data) {
+                        $('#updateName').val(data.name);
+                        $('#testShow').text(data.name);
+                        $('#updateId').val(data.id)// hoặc $('#testShow').html(data.name);
+                        $('#updateModal').modal('show');
+                    },
+                    error: function () {
+                        alert("Lỗi truy cập");
+                    }
+                });
+            }
+        });
+
+    </script>
+
+    <!--End Layout-->
 </div>
 </body>
 </html>
