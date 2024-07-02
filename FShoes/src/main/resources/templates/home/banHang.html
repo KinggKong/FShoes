@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Color Page</title>
+    <title>Bán hàng tại quầy</title>
 </head>
 
 <body>
@@ -70,11 +70,11 @@
                                                     <td>100,000</td>
                                                     <td class="d-flex justify-content-center text-center">
 
-                                                        <a class="btn" ><i
+                                                        <a class="btn"><i
                                                                 class="ti-pencil" style="margin-right: 15px"></i></a>
 
 
-                                                        <a class="btn" ><i
+                                                        <a class="btn"><i
                                                                 class="ti-close" style="margin-right: 15px"></i></a>
 
                                                     </td>
@@ -121,19 +121,15 @@
                                                     <div class="container-fluid mb-4">
                                                         <div class="row d-flex justify-content-between">
                                                             <label class="form-label">Khách hàng</label>
-                                                            <div class="col-12">
-                                                                <select class="form-select" id="khachHang"
-                                                                        name="khachHang">
-                                                                    <option value="kh1">Khách hàng 1</option>
-                                                                    <option value="kh2">Khách hàng 2</option>
-                                                                    <option value="kh3">Khách hàng 3</option>
-                                                                </select>
+                                                            <div class="col-8">
+                                                                <input type="text" class="form-control" id="sdt"
+                                                                       name="sdt"/>
                                                             </div>
-                                                            <!--                                                            <div class="col-4">-->
-                                                            <!--                                                                <button type="button" class="btn btn-info">Chọn</button>-->
-                                                            <!--                                                            </div>-->
+                                                            <div class="col-4">
+                                                                <button type="button" class="btn btn-info">Chọn</button>
+                                                            </div>
                                                         </div>
-                                                        <!--                                                        <i class="form-label" style="color: grey;">Tên khách hàng</i>-->
+                                                        <i class="form-label" style="color: grey;">Tên khách hàng</i>
                                                     </div>
                                                     <div class="mb-2">
                                                         <span><label class="form-label me-2">Voucher:</label></span>
@@ -240,81 +236,56 @@
                                         </span>
                                         </div>
                                     </div>
+
+
                                     <div class="table-responsive">
                                         <table class="table text-nowrap mb-0 align-middle">
                                             <thead class="text-dark fs-4">
                                             <tr>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Tên</h6>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Tên</h6></th>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Color</h6></th>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Size</h6></th>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Sole</h6></th>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Category</h6>
                                                 </th>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Color</h6>
-                                                </th>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Size</h6>
-                                                </th>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Sole</h6>
-                                                </th>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Category</h6>
-                                                </th>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Brand</h6>
-                                                </th>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Số lượng</h6>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Brand</h6></th>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Số lượng</h6>
                                                 </th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
+                                            <tr th:each="index : ${#numbers.sequence(0, #lists.size(products)-1)}">
+                                                <!-- Lặp qua từng sản phẩm -->
                                                 <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Sản phẩm 1</h6>
+                                                    <h6 class="fw-semibold mb-0" th:text="${products[index].productName}">Product Name</h6>
                                                 </td>
+
+                                                <!-- Truy cập màu sắc và kích cỡ dựa trên index -->
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Đỏ</p>
+                                                    <p class="mb-0 fw-normal" th:text="${productDetails[index].color.name}">Color</p>
                                                 </td>
+
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">40</p>
+                                                    <p class="mb-0 fw-normal" th:text="${productDetails[index].size.name}">Size</p>
                                                 </td>
+
+                                                <!-- Truy cập đế giày, danh mục và thương hiệu dựa trên sản phẩm -->
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Sole 1 </p>
+                                                    <p class="mb-0 fw-normal" th:text="${products[index].sole.name}">Sole</p>
                                                 </td>
+
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Category 1</p>
+                                                    <p class="mb-0 fw-normal" th:text="${products[index].category.name}">Category</p>
                                                 </td>
+
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Brand 1</p>
+                                                    <p class="mb-0 fw-normal" th:text="${products[index].brand.name}">Brand</p>
                                                 </td>
+
+                                                <!-- Truy cập số lượng từ chi tiết sản phẩm -->
                                                 <td class="border-bottom-0">
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <span>20</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Sản phẩm 2</h6>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Trắng</p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">44</p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Sole 2 </p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Category 2</p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal">Brand 2</p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <span>15</span>
+                                                        <span th:text="${productDetails[index].quantity}">0</span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -330,10 +301,9 @@
                                             <li class="page-item"><a class="page-link" href="#">Next</a></li>
                                         </ul>
                                     </nav>
-                                    <div class="text-center d-flex align-items-center justify-content-center">
-                                        <p class="text-danger mt-5" style="font-size: 16px;">Chưa có sản phẩm nào trong
-                                            cửa hàng</p>
-                                    </div>
+<!--                                    <div class="text-center d-flex align-items-center justify-content-center">-->
+<!--                                        <p class="text-danger mt-5" style="font-size: 16px;" th:if="${#lists.isEmpty(sanPhams)}">Chưa có sản phẩm nào trong cửa hàng</p>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
