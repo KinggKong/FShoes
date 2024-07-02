@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/sizes")
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
-
+//@ResponseBody
 public class SizeController {
 
     @Autowired
@@ -36,6 +36,14 @@ public class SizeController {
 //        Page<Size> page = sizeService.pagination(pageable);
 //        model.addAttribute("sizes", page);
 //        return "home/size";
+//    }
+
+//    @GetMapping("/api/list")
+//    public List<Size> listSizesForApi() {
+//        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+//        Pageable pageable = PageRequest.of(0, Page_size, sort);
+//        Page<Size> page = sizeService.pagination(pageable);
+//        return page.getContent();
 //    }
 
 

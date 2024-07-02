@@ -14,6 +14,69 @@
 <body>
 <div layout:fragment="content">
 
+
+<!--    <nav>-->
+<!--        <div class="nav nav-tabs" id="nav-tab" role="tablist">-->
+<!--            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Table 1</button>-->
+<!--            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Table 2</button>-->
+<!--            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Table 3</button>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--    <div class="tab-content" id="nav-tabContent">-->
+<!--        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Table 1</div>-->
+<!--        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Table2</div>-->
+<!--        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>-->
+<!--    </div>-->
+
+<!--    <div class="row">-->
+<!--        <div class="col-12 grid-margin stretch-card">-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h4 class="card-title">List Size</h4>-->
+<!--                    <div class="table-responsive">-->
+<!--                        <table class="table table-hover">-->
+<!--                            <thead>-->
+<!--                            <tr>-->
+<!--                                <th>STT</th>-->
+<!--                                <th>ID</th>-->
+<!--                                <th>Size name</th>-->
+<!--                                <th>Created At</th>-->
+<!--                                <th>Update At</th>-->
+<!--                                <th>Status</th>-->
+<!--                                <th>Action</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                            <tr th:each="size, loop : ${sizes}" th:if="${size.status == 0}">-->
+<!--                                <td th:text="${loop.index + 1}"></td>-->
+<!--                                <td th:text="${size.id}"></td>-->
+<!--                                <td th:text="${size.name}"></td>-->
+<!--                                <td th:text="${#temporals.format(size.createdAt, 'dd-MM-yyyy')}"></td>-->
+<!--                                <td th:text="${#temporals.format(size.updatedAt, 'dd-MM-yyyy')}"></td>-->
+<!--                                <td th:classappend="${size.status == 1 ? 'text-success' : 'text-danger'}"-->
+<!--                                    th:text="${size.status == 1 ? 'Đang hoạt động' : 'Ngừng hoạt động'}">-->
+<!--                                </td>-->
+<!--                                <td class="text-danger">-->
+
+<!--                                    <a th:href="@{/sizes/delete/{id}(id=${size.id})}" class="text-danger">-->
+<!--                                        <i class="ti-close" style="margin-right: 15px"></i>-->
+<!--                                    </a>-->
+
+<!--                                    <a th:href="@{/sizes/detail/{id}(id=${size.id})}" data-bs-toggle="modal"-->
+<!--                                       data-bs-target="#detailModal" th:data-id="${size.id}">-->
+<!--                                        <i class="ti-pencil"></i>-->
+<!--                                    </a>-->
+
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
     <!--Content of the page-->
     <div class="content-wrapper">
         <h3>List Of Size</h3>
@@ -56,6 +119,21 @@
                                         <input type="text" name="sizeName" class="form-control" id="recipient-name"
                                                placeholder="Enter size name" required>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="createdAt" class="col-form-label">Created At:</label>
+                                        <input type="date" name="createdAt" class="form-control" id="createdAt" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updatedAt" class="col-form-label">Updated At:</label>
+                                        <input type="date" name="updatedAt" class="form-control" id="updatedAt" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status" class="col-form-label">Status:</label>
+                                        <select name="status" class="form-select" disabled>
+                                            <option value="1" >Đang hoạt động</option>
+                                            <option value="0">Ngừng hoạt động</option>
+                                        </select>
+                                    </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                                         </button>
@@ -71,25 +149,44 @@
 
 
         <!-- Update Modal -->
-        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel1"
-             aria-hidden="true">
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel1">Update size</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/sizes/update" method="post">
+                        <form th:action="@{/sizes/update}" th:object="${size}" method="post">
+                            <div class="mb-3">
+                                <label for="id" class="col-form-label">ID:</label>
+                                <input type="text" name="id" class="form-control" id="id" readonly
+                                       th:value="${size?.id}">
+                            </div>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">Size Name:</label>
                                 <input type="text" name="name" class="form-control" id="recipient-name-update"
-                                       placeholder="Enter size name" required>
+                                       placeholder="Enter size name" required th:value="${size?.name}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="createAt" class="col-form-label">Create At:</label>
+                                <input type="date" name="createAt" class="form-control" id="createAt"
+                                       th:value="${#dates.format(size?.createdAt, 'yyyy-MM-dd')}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateAt" class="col-form-label">Update At:</label>
+                                <input type="date" name="updateAt" class="form-control" id="updateAt"
+                                       th:value="${#dates.format(size?.updatedAt, 'yyyy-MM-dd')}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="col-form-label">Status:</label>
+                                <select name="status" class="form-control" id="status">
+                                    <option th:value="1" th:selected="${size?.status == 1}">Đang hoạt động</option>
+                                    <option th:value="0" th:selected="${size?.status == 0}">Ngừng hoạt động</option>
+                                </select>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                                </button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
@@ -134,7 +231,7 @@
                                         </a>
 
                                         <a th:href="@{/sizes/detail/{id}(id=${size.id})}" data-bs-toggle="modal"
-                                           data-bs-target="#detailModal">
+                                           data-bs-target="#detailModal" th:data-id="${size.id}">
                                             <i class="ti-pencil"></i>
                                         </a>
 
