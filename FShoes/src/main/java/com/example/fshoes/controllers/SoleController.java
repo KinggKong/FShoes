@@ -4,6 +4,7 @@ import com.example.fshoes.entities.Sole;
 import com.example.fshoes.services.impl.SoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,18 @@ public class SoleController {
         return "redirect:/soles/";
     }
     @GetMapping("/detail/{id}")
-    public String getSoleDetail(@PathVariable("id") Long soleId, Model model) {
+    @ResponseBody
+    public ResponseEntity<Sole> getSoleDetail(@PathVariable("id") Long soleId, Model model) {
         Sole sole = soleService.findById(soleId);
         model.addAttribute("sole", sole);
-        return "home/sole";
+        return ResponseEntity.ok(sole);
     }
     @PostMapping("/update")
-    public String UpdateSole(@ModelAttribute("sole") Sole sole) {
+    public String UpdateSole(@RequestParam("id") Long id,
+                             @RequestParam("name") String name) {
+        Sole sole = new Sole();
+        sole.setId(id);
+        sole.setName(name);
         soleService.update(sole);
         return "redirect:/soles/";
     }
