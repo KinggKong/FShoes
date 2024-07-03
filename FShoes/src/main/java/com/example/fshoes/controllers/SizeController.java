@@ -84,20 +84,21 @@ public class SizeController {
 
     @PostMapping("/update")
     public String UpdateSize(@RequestParam("sizeId") Long sizeId,
-                             @RequestParam("sizeName") String sizeName) {
+                             @RequestParam("sizeName") String sizeName,  RedirectAttributes redirectAttributes) {
         Size updateSize = new Size();
         updateSize.setId(sizeId);
         updateSize.setName(sizeName);
+        redirectAttributes.addFlashAttribute("message2", "Update dữ liệu thành công");
+
         sizeService.updateSize(updateSize);
         return "redirect:/sizes/list";
     }
 
     @GetMapping("/detail/{id}")
     @ResponseBody
-    public ResponseEntity<Size> getSizeDetail(@PathVariable("id") Long colorId, Model model) {
-        Size color = sizeService.findSizeById(colorId);
-        model.addAttribute("size", sizeService.findSizeById(colorId));
-        model.addAttribute("message2", "Sửa dữ liệu thành công");
+    public ResponseEntity<Size> getSizeDetail(@PathVariable("id") Long sizeId, Model model) {
+        Size color = sizeService.findSizeById(sizeId);
+        model.addAttribute("size", sizeService.findSizeById(sizeId));
         return ResponseEntity.ok(color);
     }
 
