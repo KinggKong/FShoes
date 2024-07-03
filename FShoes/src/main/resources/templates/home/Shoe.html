@@ -63,7 +63,7 @@
                                 <div class="card-body">
 
                                     <h4 class="card-title">Thêm Mới Sản Phẩm</h4>
-                                    <form class="form-sample" action="#" th:action="@{/submit-form}" th:object="${product}" method="post">
+                                    <form class="form-sample">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
@@ -94,13 +94,10 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Brand</label>
                                                     <div class="col-sm-9">
-                                                        <select id="brandId" name="brand" class="form-control" >
-<!--                                                            <option>Nike</option>-->
-<!--                                                            <option>Puma</option>-->
-
-                                                                <option value="" disabled selected>Select a brand</option>
-                                                                <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.brandName}"></option>
-<!--                                                                <option value="${brand.id}">${brand.name}</option>-->
+                                                        <select id="brandId" class="form-control">
+                                                            <option>Nike</option>
+                                                            <option>Puma</option>
+<!--                                                                <option value="${b.id}">${b.name}</option>-->
                                                         </select>
                                                     </div>
                                                 </div>
