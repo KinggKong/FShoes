@@ -249,46 +249,67 @@
                                                 <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Category</h6>
                                                 </th>
                                                 <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Brand</h6></th>
+                                                <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Price</h6></th>
                                                 <th class="border-bottom-0"><h6 class="fw-semibold mb-0">Số lượng</h6>
                                                 </th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="index : ${#numbers.sequence(0, #lists.size(products)-1)}">
-                                                <!-- Lặp qua từng sản phẩm -->
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0" th:text="${products[index].productName}">Product Name</h6>
-                                                </td>
 
-                                                <!-- Truy cập màu sắc và kích cỡ dựa trên index -->
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal" th:text="${productDetails[index].color.name}">Color</p>
-                                                </td>
+                                            <!-- Lặp qua từng sản phẩm chi tiết -->
+                                            <tr th:each="index : ${#numbers.sequence(0, #lists.size(productDetails)-1)}">
 
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal" th:text="${productDetails[index].size.name}">Size</p>
-                                                </td>
+                                                <!-- Kiểm tra trạng thái sản phẩm chi tiết chỉ hiện thị spct 1 -->
+                                                <th:block th:if="${productDetails[index].status == 1}">
+                                                    <td class="border-bottom-0">
+                                                        <h6 class="fw-semibold mb-0"
+                                                            th:text="${productDetails[index].product.productName}">
+                                                            Product Name</h6>
+                                                    </td>
 
-                                                <!-- Truy cập đế giày, danh mục và thương hiệu dựa trên sản phẩm -->
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal" th:text="${products[index].sole.name}">Sole</p>
-                                                </td>
+                                                    <!-- Truy cập màu sắc và kích cỡ dựa trên index -->
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal"
+                                                           th:text="${productDetails[index].color.name}">Color</p>
+                                                    </td>
 
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal" th:text="${products[index].category.name}">Category</p>
-                                                </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal"
+                                                           th:text="${productDetails[index].size.name}">Size</p>
+                                                    </td>
 
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal" th:text="${products[index].brand.name}">Brand</p>
-                                                </td>
+                                                    <!-- Truy cập đế giày, danh mục và thương hiệu dựa trên sản phẩm -->
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal"
+                                                           th:text="${productDetails[index].product.sole.name}">Sole</p>
+                                                    </td>
 
-                                                <!-- Truy cập số lượng từ chi tiết sản phẩm -->
-                                                <td class="border-bottom-0">
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <span th:text="${productDetails[index].quantity}">0</span>
-                                                    </div>
-                                                </td>
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal"
+                                                           th:text="${productDetails[index].product.category.name}">
+                                                            Category</p>
+                                                    </td>
+
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal"
+                                                           th:text="${productDetails[index].product.brand.name}">
+                                                            Brand</p>
+                                                    </td>
+
+                                                    <td class="border-bottom-0">
+                                                        <p class="mb-0 fw-normal"
+                                                           th:text="${productDetails[index].price}">Price</p>
+                                                    </td>
+
+                                                    <!-- Truy cập số lượng từ chi tiết sản phẩm -->
+                                                    <td class="border-bottom-0">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span th:text="${productDetails[index].quantity}">0</span>
+                                                        </div>
+                                                    </td>
+                                                </th:block>
                                             </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -301,9 +322,9 @@
                                             <li class="page-item"><a class="page-link" href="#">Next</a></li>
                                         </ul>
                                     </nav>
-<!--                                    <div class="text-center d-flex align-items-center justify-content-center">-->
-<!--                                        <p class="text-danger mt-5" style="font-size: 16px;" th:if="${#lists.isEmpty(sanPhams)}">Chưa có sản phẩm nào trong cửa hàng</p>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="text-center d-flex align-items-center justify-content-center">-->
+                                    <!--                                        <p class="text-danger mt-5" style="font-size: 16px;" th:if="${#lists.isEmpty(sanPhams)}">Chưa có sản phẩm nào trong cửa hàng</p>-->
+                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
