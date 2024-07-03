@@ -8,20 +8,23 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Color Page</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Color Page</title>
+
 </head>
 
 <body>
+<!--Start layout-->
 <div layout:fragment="content">
-    <!--Start layout-->
     <!--Content of the page-->
     <div class="content-wrapper">
-        <h3>List Of Color</h3>
+
+        <!--Start Button And Modal Insert-->
         <div class="row">
             <div class="col-12 grid-margin">
+
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Insert
+                    Thêm Màu Sắc
                 </button>
 
                 <!-- Insert Modal -->
@@ -29,76 +32,88 @@
                      aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
+
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Insert Color</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Màu Sắc</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
+
                             <div class="modal-body">
                                 <form action="/colors/" method="post">
                                     <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Color Name:</label>
+                                        <label for="recipient-name" class="col-form-label">Tên Màu Sắc:</label>
                                         <input type="text" name="colorName" class="form-control" id="recipient-name"
-                                               placeholder="Enter color name">
+                                               placeholder="Nhập Vào Tên Màu Sắc">
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy
                                         </button>
-                                        <button type="submit" class="btn btn-primary">Insert</button>
+                                        <button type="submit" class="btn btn-primary">Thêm Mới</button>
                                     </div>
                                 </form>
                             </div>
+
                         </div>
                     </div>
                 </div>
+                <!--End Insert Modal-->
+
             </div>
         </div>
+        <!--End Button End Modal Insert-->
 
-
+        <!--Start Table-->
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">List Color</h4>
+
+                        <h4 class="card-title">Danh Sách Màu</h4>
                         <h6 style="color: red" th:text="${message}"></h6>
+                        <!--Start Table-->
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Color</th>
-                                    <th>Created At</th>
-                                    <th>Action</th>
+                                    <th>Màu Sắc</th>
+                                    <th>Ngày Tạo</th>
+                                    <th>Hành Động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="color, loop : ${colors}">
-                                    <td th:text="${loop.index + 1}"></td>
-                                    <td th:text="${color.name}"></td>
-                                    <td th:text="${#temporals.format(color.createdAt, 'dd-MM-yyyy')}"></td>
-                                    <td class="text-danger">
-                                        <a th:href="@{'/colors/'+${color.id}}">
-                                            <i class="ti-close" style="margin-right: 15px"></i>
-                                        </a>
-                                        <button class="updateClick" th:data="${color.id}"><i class="ti-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                    <tr th:each="color, loop : ${colors}">
+                                        <td th:text="${loop.index + 1}"></td>
+                                        <td th:text="${color.name}"></td>
+                                        <td th:text="${#temporals.format(color.createdAt, 'dd-MM-yyyy')}"></td>
+                                        <td class="text-danger">
+                                            <a th:href="@{'/colors/'+${color.id}}">
+                                                <i class="ti-close" style="margin-right: 15px"></i>
+                                            </a>
+                                            <button class="updateClick" th:data="${color.id}"><i class="ti-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
 
                         </div>
+                        <!--End Table-->
+
                     </div>
                 </div>
             </div>
         </div>
+        <!--End Table-->
+
         <!--Modal Update-->
         <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="updateModalLabel">Update Color</h1>
+                        <h1 class="modal-title fs-5" id="updateModalLabel">Cập Nhật Màu Sắc</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
@@ -106,23 +121,24 @@
                         <form action="/colors/update" method="post">
                             <div class="mb-3">
                                 <input hidden="hidden" name="colorId" id="updateId">
-                                <label for="updateName" class="col-form-label">Color Name:</label>
+                                <label for="updateName" class="col-form-label">Tên Màu Sắc:</label>
                                 <input type="text" name="colorName" class="form-control" id="updateName"
                                        placeholder="Enter color name">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy
                                 </button>
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="submit" class="btn btn-primary">Cập Nhật</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <!--End Modal Update-->
 
-    <h1 id="testShow">Hello</h1>
+    </div>
+    <!--End Content of the page-->
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -138,7 +154,6 @@
                     type: "GET",
                     success: function (data) {
                         $('#updateName').val(data.name);
-                        $('#testShow').text(data.name);
                         $('#updateId').val(data.id)// hoặc $('#testShow').html(data.name);
                         $('#updateModal').modal('show');
                     },
@@ -150,8 +165,7 @@
         });
 
     </script>
-
-    <!--End Layout-->
 </div>
+<!--End Layout-->
 </body>
 </html>
