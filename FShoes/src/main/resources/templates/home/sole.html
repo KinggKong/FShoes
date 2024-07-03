@@ -57,39 +57,69 @@
 
 <!-- Update Modal -->
 
-        <div class="modal fade" id="exampleModal_update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-            <div class="modal-dialog">
+<!--        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title" id="exampleModalLabel_update">Sole Detail</h5>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                    <form action="/soles/update"  method="post">-->
+<!--                            <input type="hidden" name="id"  id="updateId"/>-->
+<!--                            <div class="mb-3">-->
+<!--                                <label for="recipient-name" class="col-form-label">Sole Name:</label>-->
+<!--&lt;!&ndash;                                <input type="text" name="name" th:field="*{name}"  class="form-control" id="recipient-name-update"&ndash;&gt;-->
+<!--&lt;!&ndash;                                       placeholder="Enter sole name">&ndash;&gt;-->
+<!--                                <input type="text" name="name"  class="form-control"-->
+<!--                                       placeholder="Enter sole name" id="updateName">-->
+<!--                            </div>-->
+
+<!--&lt;!&ndash;                        <div class="mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <label for="recipient-name" class="col-form-label" th:text="'Create at: ' + ${sole.getCreatedAt()}"> </label>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+
+
+
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<!--                        <button type="submit" class="btn btn-primary">Save changes</button>-->
+<!--                    </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel_update">Sole Detail</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="updateModalLabel">Update Sole</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <form th:action="@{/soles/update}" th:object="${sole}" method="post">
-                            <input type="hidden" th:field="*{id}" />
+                        <form action="/soles/update" method="post">
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Sole Name:</label>
-                                <input type="text" name="name" th:field="*{name}"  class="form-control" id="recipient-name-update"
-                                       placeholder="Enter sole name">
+                                <input hidden="hidden" name="id" id="updateId">
+                                <label for="updateName" class="col-form-label">Color Name:</label>
+                                <input type="text" name="name" class="form-control" id="updateName"
+                                       placeholder="Enter color name">
                             </div>
-
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label" th:text="'Create at: ' + ${sole.getCreatedAt()}"> </label>
-
-                        </div>
-
-
-
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
@@ -116,7 +146,7 @@
                                             <i class="ti-close" style="margin-right: 15px"></i>
                                         </a>
 <!--                                        data-bs-toggle="modal" data-bs-target="#exampleModal_update"-->
-                                        <a th:href="@{'/soles/detail/'+${sole.id}}"  >
+                                        <a class="updateClick" th:data="${sole.id}"  >
                                             <i class="ti-pencil"></i>
                                         </a>
                                     </td>
@@ -129,6 +159,34 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.updateClick', function () {
+                var colorId = $(this).attr('data');
+                console.log(colorId);
+                activity(colorId);
+            });
+
+            function activity(colorId) {
+                $.ajax({
+                    url: "/soles/detail/" + colorId,
+                    type: "GET",
+                    success: function (data) {
+                        $('#updateName').val(data.name);
+                        // $('#testShow').text(data.name);
+                        $('#updateId').val(data.id)// hoặc $('#testShow').html(data.name);
+                        $('#updateModal').modal('show');
+                    },
+                    error: function () {
+                        alert("Lỗi truy cập");
+                    }
+                });
+            }
+        });
+
+    </script>
 </div>
+
 </body>
+
 </html>
