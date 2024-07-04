@@ -9,14 +9,15 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
 
     <!-- Include Select2 CSS -->
-    <link rel="stylesheet" href="/vendors/select2/select2.min.css">
-    <link rel="stylesheet" href="/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+    <!--    <link rel="stylesheet" href="/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">-->
+
 
     <!-- Include Select2 JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>-->
 
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="/css/home/shoe.css">
@@ -24,20 +25,20 @@
 
 </head>
 <body>
-    <!--Start Layout-->
-    <div layout:fragment="content">
-        <!--Content of the page-->
-        <div class="content-wrapper">
+<!--Start Layout-->
+<div layout:fragment="content">
+    <!--Content of the page-->
+    <div class="content-wrapper">
 
-            <!--Search Input And Form-->
-            <div class="row">
-                <div class="col-12 grid-margin">
+        <!--Search Input And Form-->
+        <div class="row">
+            <div class="col-12 grid-margin">
 
-                    <h3>Tìm Kiếm</h3>
-                    <div class="input-group mb-1">
-                        <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm theo tên..."
-                               aria-label="Username">
-                        <button id="show-form-btn">
+                <h3>Tìm Kiếm</h3>
+                <div class="input-group mb-1">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm theo tên..."
+                           aria-label="Username">
+                    <button id="show-form-btn">
                           <span class="span-mother">
                                 <span>I</span>
                                 <span>n</span>
@@ -53,6 +54,7 @@
                                 <span>r</span>
                                 <span>t</span>
                           </span>
+<<<<<<< HEAD
                         </button>
                     </div>
 
@@ -162,138 +164,254 @@
                         </div>
                     </div>
                     <!--End Form-->
+=======
+                    </button>
+>>>>>>> 385355cd77a5a8a6dc7c862688f37cda22f8ab16
                 </div>
-            </div>
-            <!--End Search Input-->
 
-            <!--Search Combobox-->
-            <div class="row">
-                <div class="combobox-group">
-                    <div class="form-group">
-                        <label for="brand">Brand:</label>
-                        <select class="form-control" id="brand">
-                            <option value="">-------</option>
-                            <option value="Nike">Nike</option>
-                            <!-- Add more options here -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Category:</label>
-                        <select class="form-control" id="category">
-                            <option value="">-------</option>
-                            <option value="Man">Man</option>
-                            <!-- Add more options here -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="size">Size:</label>
-                        <select class="form-control" id="size">
-                            <option value="">-------</option>
-                            <option value="32">32</option>
-                            <!-- Add more options here -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="color">Color:</label>
-                        <select class="form-control" id="color">
-                            <option value="">-------</option>
-                            <option value="Red">Red</option>
-                            <!-- Add more options here -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="soleType">Loại đế:</label>
-                        <select class="form-control" id="soleType">
-                            <option value="">-------</option>
-                            <option value="Nhựa">Nhựa</option>
-                            <!-- Add more options here -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="fabricType">Loại vải:</label>
-                        <select class="form-control" id="fabricType">
-                            <option value="">-------</option>
-                            <option value="Cotton">Cotton</option>
-                            <!-- Add more options here -->
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <!--End Search Combobox-->
+                <!--form-->
+                <div id="form-section" class="card">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
 
-            <!--table-->
-            <div class="row">
-                <div class="col-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Danh Sách Sản Phẩm</h4>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Ảnh</th>
-                                        <th>Mã</th>
-                                        <th>Tên</th>
-                                        <th>Màu</th>
-                                        <th>Kích Thước</th>
-                                        <th>Đơn Giá</th>
-                                        <th>Số Lượng</th>
-                                        <th>Trạng Thái</th>
-                                        <th>Hàng Động</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="">
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><label
-                                                        class="badge badge-danger"></label>
-                                                </td>
-                                                <td class="text-danger"><i class="ti-close"
-                                                                           style="margin-right: 15px"></i>
-                                                    <i class="ti-pencil"></i></td>
+                                <h4 class="card-title">Thêm Mới Sản Phẩm</h4>
+                                <form class="form-sample">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Name</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="nameShoe" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Color</label>
+                                                <div class="col-sm-9">
+                                                    <select id="colorSelect" class="js-example-basic-multiple w-100"
+                                                            style="width: 440px" multiple="multiple">
+                                                        <option>Red</option>
+                                                        <option>White</option>
+                                                        <option>Blue</option>
+                                                        <option>Green</option>
+                                                        <!--                                                                <option th:each="color:${colors}" value="${color.id}">${color.name}</option>-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Brand</label>
+                                                <div class="col-sm-9">
+                                                    <select id="brandId" class="form-control">
+                                                        <option>Nike</option>
+                                                        <option>Puma</option>
+                                                        <!--                                                                <option value="${b.id}">${b.name}</option>-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Size</label>
+                                                <div class="col-sm-9">
+                                                    <select id="sizeSelect" class="js-example-basic-multiple w-100"
+                                                            style="width: 440px" multiple="multiple">
+                                                        <option>37</option>
+                                                        <option>38</option>
+                                                        <option>39</option>
+                                                        <option>40</option>
+                                                        <option>41</option>
+                                                        <!--                                                                <option value="${size.id}">${size.name}</option>-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Category</label>
+                                                <div class="col-sm-9">
+                                                    <select id="categoryId" class="form-control">
+                                                        <option>Women</option>
+                                                        <option>Man</option>
+                                                        <!--                                                                <option value="${cat.id}">${cat.name}</option>-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="shoeVariantsTable" class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Tên</th>
+                                                    <th>Số Lượng</th>
+                                                    <th>Đơn Giá</th>
+                                                    <th>Danh Mục</th>
+                                                    <th>Thương Hiệu</th>
+                                                    <th></th>
+                                                    <th>Ảnh</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <!-- Các dòng sẽ được thêm bằng mã JavaScript sau khi nhận dữ liệu từ server -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary me-2">Thêm Mới</button>
+                                    <button type="button" class="btn btn-light" id="cancel-btn">Hủy</button>
+                                </form>
 
-                                            </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--End Form-->
             </div>
-            <!--End Table-->
-
         </div>
-        <!--End Content of the page-->
+        <!--End Search Input-->
 
+        <!--Search Combobox-->
+        <div class="row">
+            <div class="combobox-group">
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <select class="form-control" id="brand">
+                        <option value="">-------</option>
+                        <option value="Nike">Nike</option>
+                        <!-- Add more options here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select class="form-control" id="category">
+                        <option value="">-------</option>
+                        <option value="Man">Man</option>
+                        <!-- Add more options here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="size">Size:</label>
+                    <select class="form-control" id="size">
+                        <option value="">-------</option>
+                        <option value="32">32</option>
+                        <!-- Add more options here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="color">Color:</label>
+                    <select class="form-control" id="color">
+                        <option value="">-------</option>
+                        <option value="Red">Red</option>
+                        <!-- Add more options here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="soleType">Loại đế:</label>
+                    <select class="form-control" id="soleType">
+                        <option value="">-------</option>
+                        <option value="Nhựa">Nhựa</option>
+                        <!-- Add more options here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fabricType">Loại vải:</label>
+                    <select class="form-control" id="fabricType">
+                        <option value="">-------</option>
+                        <option value="Cotton">Cotton</option>
+                        <!-- Add more options here -->
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!--End Search Combobox-->
 
+        <!--table-->
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Danh Sách Sản Phẩm</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Ảnh</th>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Màu</th>
+                                    <th>Kích Thước</th>
+                                    <th>Đơn Giá</th>
+                                    <th>Số Lượng</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Hàng Động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="">
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><label
+                                            class="badge badge-danger"></label>
+                                    </td>
+                                    <td class="text-danger"><i class="ti-close"
+                                                               style="margin-right: 15px"></i>
+                                        <i class="ti-pencil"></i></td>
 
-        <script type="text/javascript">
-           $(document).ready(function () {
-               // Hiện form khi click nút Insert
-               $('#show-form-btn').on('click', function () {
-                   $('#form-section').css('display', 'block');
-                   $('#colorSelect, #sizeSelect').select2();
-                   console.log("Form hiển thị và Select2 đã được khởi tạo.");
-               });
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Table-->
 
-               // Ẩn form khi click nút Cancel
-               $('#cancel-btn').on('click', function () {
-                   $('#form-section').css('display', 'none');
-               });
-
-
-           })
-        </script>
     </div>
-    <!--End Layout-->
+    <!--End Content of the page-->
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript của Select2 -->
+    <script src="/vendors/select2/select2.min.js"></script>
+    <script src="/js/select2.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Hiện form khi click nút Insert
+            $('#show-form-btn').on('click', function () {
+                $('#form-section').css('display', 'block');
+                $('#colorSelect, #sizeSelect').select2();
+                console.log("Form hiển thị và Select2 đã được khởi tạo.");
+            });
+
+            // Ẩn form khi click nút Cancel
+            $('#cancel-btn').on('click', function () {
+                $('#form-section').css('display', 'none');
+            });
+
+
+        })
+    </script>
+</div>
+<!--End Layout-->
 
 
 </body>
