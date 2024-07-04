@@ -1,11 +1,8 @@
 package com.example.fshoes.controllers;
 
-import com.example.fshoes.entities.Color;
-import com.example.fshoes.entities.Fabric;
-import com.example.fshoes.entities.Sole;
-import com.example.fshoes.services.impl.ColorService;
-import com.example.fshoes.services.impl.FabricService;
-import com.example.fshoes.services.impl.SoleService;
+import com.example.fshoes.entities.*;
+import com.example.fshoes.repositories.DanhMucRepository;
+import com.example.fshoes.services.impl.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +17,9 @@ public class GlobalControllerAdvice {
     ColorService colorService;
     SoleService soleService;
     FabricService fabricService;
+    BrandService brandService;
+    DanhMucRepository danhMucRepository;
+    SizeService sizeService;
     @ModelAttribute("colors")
     public List<Color> colors() {
         return colorService.getColors();
@@ -33,5 +33,17 @@ public class GlobalControllerAdvice {
     @ModelAttribute("fabrics")
     public List<Fabric> fabrics() {
         return fabricService.getAll();
+    }
+    @ModelAttribute("brands")
+    public List<Brand> brands() {
+        return brandService.getAll();
+    }
+    @ModelAttribute("danhmucs")
+    public List<DanhMuc> danhMucs() {
+        return danhMucRepository.findAll();
+    }
+    @ModelAttribute("sizes")
+    public List<Size> sizes() {
+        return sizeService.getSize();
     }
 }
