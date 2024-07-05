@@ -39,7 +39,8 @@ public class ProductDetail extends BaseEntity{
     @Column(name = "description", length = 50)
     private String description;
 
-
+    @Column(name = "src_img")
+    private String srcImg;
     @Column(name = "status")
     private int status;
 }

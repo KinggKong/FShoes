@@ -63,7 +63,7 @@
                                 <div class="card-body">
 
                                     <h4 class="card-title">Thêm Mới Sản Phẩm</h4>
-                                    <form class="form-sample" action="#" th:action="@{/submit-form}" th:object="${product}" method="post">
+                                  <form class="form-sample" action="#" th:action="@{/shoes/}" th:object="${product}"  method="post">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
@@ -79,10 +79,12 @@
                                                     <div class="col-sm-9">
                                                         <select id="colorSelect" class="js-example-basic-multiple w-100"
                                                                 style="width: 440px" multiple="multiple">
-                                                            <option>Red</option>
-                                                            <option>White</option>
-                                                            <option>Blue</option>
-                                                            <option>Green</option>
+<!--                                                            <option>Red</option>-->
+<!--                                                            <option>White</option>-->
+<!--                                                            <option>Blue</option>-->
+<!--                                                            <option>Green</option>-->
+                                                            <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+
 <!--                                                                <option th:each="color:${colors}" value="${color.id}">${color.name}</option>-->
                                                         </select>
                                                     </div>
@@ -111,11 +113,14 @@
                                                     <div class="col-sm-9">
                                                         <select id="sizeSelect" class="js-example-basic-multiple w-100"
                                                                 style="width: 440px" multiple="multiple">
-                                                            <option>37</option>
-                                                            <option>38</option>
-                                                            <option>39</option>
-                                                            <option>40</option>
-                                                            <option>41</option>
+<!--                                                            <option>37</option>-->
+<!--                                                            <option>38</option>-->
+<!--                                                            <option>39</option>-->
+<!--                                                            <option>40</option>-->
+<!--                                                            <option>41</option>-->
+                                                            <option th:each="size : ${sizes}" th:value="${size.id}" th:text="${size.name}"></option>
+
+
 <!--                                                                <option value="${size.id}">${size.name}</option>-->
                                                         </select>
                                                     </div>
@@ -128,8 +133,8 @@
                                                     <label class="col-sm-3 col-form-label">Category</label>
                                                     <div class="col-sm-9">
                                                         <select id="categoryId" class="form-control">
-                                                            <option>Women</option>
-                                                            <option>Man</option>
+                                                            <option value="" disabled selected>Select a category</option>
+                                                            <option th:each="category : ${danhmucs}" th:value="${category.id}" th:text="${category.name}"></option>
 <!--                                                                <option value="${cat.id}">${cat.name}</option>-->
                                                         </select>
                                                     </div>
@@ -142,22 +147,25 @@
                                                     <thead>
                                                     <tr>
                                                         <th>Tên</th>
-                                                        <th>Số Lượng</th>
-                                                        <th>Đơn Giá</th>
-                                                        <th>Danh Mục</th>
-                                                        <th>Thương Hiệu</th>
-                                                        <th></th>
+                                                        <th >Số Lượng</th>
+                                                        <th >Đơn Giá</th>
+
+                                                        <th>Size</th>
+                                                        <th>Màu sắc</th>
                                                         <th>Ảnh</th>
+                                                        <th>Hành động</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id="productDetailsBody">
                                                     <!-- Các dòng sẽ được thêm bằng mã JavaScript sau khi nhận dữ liệu từ server -->
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary me-2">Thêm Mới</button>
+                                          <button type="submit" class="btn btn-primary me-2" id="add-product-button">Thêm Mới</button>
+
                                         <button type="button" class="btn btn-light" id="cancel-btn">Hủy</button>
+
                                     </form>
 
                                 </div>
@@ -246,18 +254,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                            <tr>
+
+                                            <tr th:each="productdetail : ${productdetais}">
                                                 <td>
                                                     <img src="">
                                                 </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><label
-                                                        class="badge badge-danger"></label>
+                                                <td th:text="${productdetail.id}"></td>
+                                                <td th:text="${productdetail.product.productName}"></td>
+                                                <td th:text="${productdetail.color.name}"></td>
+                                                <td th:text="${productdetail.size.name}"></td>
+                                                <td th:text="${productdetail.salePrice}"></td>
+                                                <td th:text="${productdetail.quantity}"></td>
+                                                <td>
+                                                    <label th:classappend="${productdetail.status == 1} ? 'badge badge-success' : 'badge badge-danger'"
+                                                           th:text="${productdetail.status == 1} ? 'Đang bán' : 'Ngừng bán'"></label>
                                                 </td>
                                                 <td class="text-danger"><i class="ti-close"
                                                                            style="margin-right: 15px"></i>
@@ -275,7 +285,11 @@
 
         </div>
         <!--End Content of the page-->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+        <!-- JavaScript của Select2 -->
+        <script src="/vendors/select2/select2.min.js"></script>
+        <script src="/js/select2.js"></script>
 
 
         <script type="text/javascript">
@@ -295,6 +309,268 @@
 
            })
         </script>
+
+<!--  Js lưu thông tin sản phẩm    -->
+            <script>
+                document.getElementById('add-product-button').addEventListener('click', function() {
+                    addNewProducts();
+                });
+
+                function convertToBase64(file) {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                // function addNewProducts() {
+                //     var productName = $('#nameShoe').val();
+                //     var categoryId = $('#categoryId').val();
+                //     var brandId = $('#brandId').val();
+                //     var details = [];
+                //
+                //     var sizeSelect = document.getElementById('sizeSelect');
+                //     var colorSelect = document.getElementById('colorSelect');
+                //     Array.from(sizeSelect.selectedOptions).forEach(function (sizeOption) {
+                //         Array.from(colorSelect.selectedOptions).forEach(function (colorOption) {
+                //            // var imageInput = document.querySelector(`[name='productImage'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`);
+                //             const imageInput = document.querySelector(`input[name='productImage'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`);
+                //             let base64Image = '';
+                //             imageInput.addEventListener('change', function(event) {
+                //                 const file = event.target.files[0];
+                //                 const reader = new FileReader();
+                //
+                //                 reader.onload = function(event) {
+                //                      base64Image = event.target.result;
+                //                     // Gán giá trị base64 vào detail
+                //                     detail.productImageBase64 = file;
+                //                 };
+                //
+                //                 reader.readAsDataURL(file);
+                //             });
+                //             let detail = {
+                //                 sizeId: sizeOption.value,
+                //                 colorId: colorOption.value,
+                //                 quantity: parseInt(document.querySelector(`[name='quantity'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                //                 salePrice: parseFloat(document.querySelector(`[name='price'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                //                 productCode: '', // Add appropriate value
+                //                 description: '', // Add appropriate value
+                //                 productImageBase64: base64Image,//convertToBase64(imageInput), // Add appropriate value
+                //                 status: 1 // Set appropriate status
+                //             };
+                //             details.push(detail);
+                //         });
+                //     });
+                //
+                //     var productRequest = {
+                //         productName: productName,
+                //         categoryId: categoryId,
+                //         brandId: brandId,
+                //         materialId: '1', // Set appropriate value
+                //         soleMaterialId: '3', // Set appropriate value
+                //         status: 1, // Set appropriate status
+                //         details: details
+                //     };
+                //
+                //     console.log('Product request:', productRequest);
+                //
+                //         // fetch('http://localhost:8080/shoes/', {
+                //         //     method: 'POST',
+                //         //     headers: {
+                //         //         'Content-Type': 'application/json'
+                //         //     },
+                //         //     body: JSON.stringify(productRequest)
+                //         // })
+                //         //     .then(response => {
+                //         //         if (response.ok) {
+                //         //             // Chuyển hướng người dùng sau khi thêm thành công
+                //         //             window.location.href = "/shoes/";
+                //         //         } else {
+                //         //             throw new Error('Network response was not ok.');
+                //         //         }
+                //         //     })
+                //         //     .then(data => {
+                //         //         console.log('Response from server:', data);
+                //         //         // Xử lý kết quả từ server (nếu cần)
+                //         //     })
+                //         //     .catch(error => console.error('Error:', error));
+                //
+                // }
+                function addNewProducts() {
+                    var productName = $('#nameShoe').val();
+                    var categoryId = $('#categoryId').val();
+                    var brandId = $('#brandId').val();
+                    var sizeSelect = document.getElementById('sizeSelect');
+                    var colorSelect = document.getElementById('colorSelect');
+                    var detailsPromises = [];
+
+                    Array.from(sizeSelect.selectedOptions).forEach(function (sizeOption) {
+                        Array.from(colorSelect.selectedOptions).forEach(function (colorOption) {
+                            const imageInput = document.querySelector(`input[name='productImage'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`);
+                            let base64Image = '';
+
+                            let detailPromise = new Promise((resolve, reject) => {
+                                if (imageInput && imageInput.files.length > 0) {
+                                    const file = imageInput.files[0];
+                                    const reader = new FileReader();
+
+                                    reader.onload = function(event) {
+                                        base64Image = event.target.result;
+                                        let detail = {
+                                            sizeId: sizeOption.value,
+                                            colorId: colorOption.value,
+                                            quantity: parseInt(document.querySelector(`[name='quantity'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                                            salePrice: parseFloat(document.querySelector(`[name='price'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                                            productCode: '', // Add appropriate value
+                                            description: '', // Add appropriate value
+                                            src_img: base64Image,
+                                            status: 1 // Set appropriate status
+                                        };
+                                        resolve(detail);
+                                    };
+
+                                    reader.onerror = function(event) {
+                                        reject(event);
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                } else {
+                                    let detail = {
+                                        sizeId: sizeOption.value,
+                                        colorId: colorOption.value,
+                                        quantity: parseInt(document.querySelector(`[name='quantity'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                                        salePrice: parseFloat(document.querySelector(`[name='price'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                                        productCode: '', // Add appropriate value
+                                        description: '', // Add appropriate value
+                                        src_img: '', // No image selected
+                                        status: 1 // Set appropriate status
+                                    };
+                                    resolve(detail);
+                                }
+                            });
+
+                            detailsPromises.push(detailPromise);
+                        });
+                    });
+
+                    Promise.all(detailsPromises).then((details) => {
+                        let productRequest = {
+                            productName: productName,
+                            categoryId: categoryId,
+                            brandId: brandId,
+                            materialId: '1', // Set appropriate value
+                            soleMaterialId: '3', // Set appropriate value
+                            status: 1, // Set appropriate status
+                            details: details
+                        };
+
+                        console.log('Product request:', productRequest);
+
+                        fetch('http://localhost:8080/shoes/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(productRequest)
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    // Chuyển hướng người dùng sau khi thêm thành công
+                                    window.location.href = "/shoes/";
+                                } else {
+                                    throw new Error('Network response was not ok.');
+                                }
+                            })
+                            .then(data => {
+                                console.log('Response from server:', data);
+                                // Xử lý kết quả từ server (nếu cần)
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }).catch((error) => {
+                        console.error('Error processing image files', error);
+                    });
+                }
+                // function addNewProducts() {
+                //     var form = document.getElementById('productForm');
+                //     var formData = new FormData(form);
+                //
+                //     var productName = $('#nameShoe').val();
+                //     var categoryId = $('#categoryId').val();
+                //     var brandId = $('#brandId').val();
+                //     var details = [];
+                //
+                //     var sizeSelect = document.getElementById('sizeSelect');
+                //     var colorSelect = document.getElementById('colorSelect');
+                //
+                //     Array.from(sizeSelect.selectedOptions).forEach(function (sizeOption) {
+                //         Array.from(colorSelect.selectedOptions).forEach(function (colorOption) {
+                //             const imageInput = document.querySelector(`input[name='productImage'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`);
+                //             let base64Image = '';
+                //
+                //             let detail = {
+                //                 sizeId: sizeOption.value,
+                //                 colorId: colorOption.value,
+                //                 quantity: parseInt(document.querySelector(`[name='quantity'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                //                 salePrice: parseFloat(document.querySelector(`[name='price'][data-size='${sizeOption.value}'][data-color='${colorOption.value}']`).value),
+                //                 productCode: '', // Add appropriate value
+                //                 description: '', // Add appropriate value
+                //                 productImageBase64: base64Image,// convertToBase64(imageInput), // Add appropriate value
+                //                 status: 1 // Set appropriate status
+                //             };
+                //
+                //             if (imageInput && imageInput.files.length > 0) {
+                //                 const file = imageInput.files[0];
+                //                 const reader = new FileReader();
+                //
+                //                 reader.onload = function(event) {
+                //                     base64Image = event.target.result;
+                //                     detail.productImageBase64 = base64Image;
+                //                     details.push(detail);
+                //                     // Append each detail to formData
+                //                     formData.append('details', JSON.stringify(detail));
+                //                 };
+                //
+                //                 reader.readAsDataURL(file);
+                //             } else {
+                //                 details.push(detail);
+                //                 // Append each detail to formData
+                //                 formData.append('details', JSON.stringify(detail));
+                //             }
+                //         });
+                //     });
+                //
+                //     formData.append('productName', productName);
+                //     formData.append('categoryId', categoryId);
+                //     formData.append('brandId', brandId);
+                //     formData.append('materialId', '1'); // Set appropriate value
+                //     formData.append('soleMaterialId', '3'); // Set appropriate value
+                //     formData.append('status', 1); // Set appropriate status
+                //
+                //     console.log('FormData:', formData);
+                //
+                //     fetch('http://localhost:8080/shoes/', {
+                //         method: 'POST',
+                //         body: formData
+                //     })
+                //         .then(response => {
+                //             if (response.ok) {
+                //                 window.location.href = "/shoes/";
+                //             } else {
+                //                 throw new Error('Network response was not ok.');
+                //             }
+                //         })
+                //         .then(data => {
+                //             console.log('Response from server:', data);
+                //         })
+                //         .catch(error => console.error('Error:', error));
+                // }
+
+
+
+            </script>
+
     </div>
     <!--End Layout-->
 

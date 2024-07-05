@@ -2,6 +2,7 @@ package com.example.fshoes.controllers;
 
 import com.example.fshoes.entities.*;
 import com.example.fshoes.repositories.DanhMucRepository;
+import com.example.fshoes.repositories.ProductDetailRepo;
 import com.example.fshoes.services.impl.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,6 +21,7 @@ public class GlobalControllerAdvice {
     BrandService brandService;
     DanhMucRepository danhMucRepository;
     SizeService sizeService;
+    ProductDetailRepo productDetailRepo;
     @ModelAttribute("colors")
     public List<Color> colors() {
         return colorService.getColors();
@@ -45,5 +47,10 @@ public class GlobalControllerAdvice {
     @ModelAttribute("sizes")
     public List<Size> sizes() {
         return sizeService.getSize();
+    }
+
+    @ModelAttribute("productdetais")
+    public List<ProductDetail> productDetails() {
+        return productDetailRepo.findAll();
     }
 }
