@@ -1,7 +1,6 @@
 package com.example.fshoes.controllers;
 
-import com.example.fshoes.entities.Color;
-import com.example.fshoes.entities.DanhMuc;
+import com.example.fshoes.entities.Category;
 import com.example.fshoes.services.DanhMucService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/danh-muc")
-public class DanhMucController {
+@RequestMapping("/categories")
+public class CategoryController {
     private final DanhMucService danhMucService;
 
     @GetMapping("")
@@ -35,7 +34,7 @@ public class DanhMucController {
     @PostMapping("/update")
     public String UpdateDanhMuc(@RequestParam("danhMucId") Long danhMucId,
                                 @RequestParam("danhMucName") String danhMucName) {
-        DanhMuc updateDm = new DanhMuc();
+        Category updateDm = new Category();
         updateDm.setId(danhMucId);
         updateDm.setName(danhMucName);
         danhMucService.updateDanhMuc(updateDm);
@@ -45,7 +44,7 @@ public class DanhMucController {
     @GetMapping("/detail/{id}")
     @ResponseBody
     public ResponseEntity<?> getDanhMucDetail(@PathVariable("id") Long danhMucId, Model model) {
-        DanhMuc dm = danhMucService.findDanhMucById(danhMucId);
+        Category dm = danhMucService.findDanhMucById(danhMucId);
         model.addAttribute("danhmuc", danhMucService.findDanhMucById(danhMucId));
         return ResponseEntity.ok(dm);
     }

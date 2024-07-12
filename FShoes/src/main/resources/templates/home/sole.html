@@ -140,7 +140,7 @@
                                 <tr th:each="sole, loop : ${soles}">
                                     <td th:text="${loop.index + 1}"></td>
                                     <td th:text="${sole.name}"></td>
-                                    <td th:text="${#temporals.format(sole.createdAt, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#temporals.format(sole.created_at, 'dd-MM-yyyy')}"></td>
                                     <td class="text-danger">
                                         <a th:href="@{'/soles/delete/'+${sole.id}}">
                                             <i class="ti-close" style="margin-right: 15px"></i>

@@ -13,7 +13,7 @@ public interface IColorService {
 
     void addColor(String colorName);
 
-    void deleteColor(Long id);
+    void deleteColor(Long id) throws Exception;
 
     void updateColor(Color color);
 

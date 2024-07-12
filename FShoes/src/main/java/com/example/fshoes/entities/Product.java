@@ -15,7 +15,7 @@ public class Product extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_name", nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String productName;
 
     @Column(name = "description", length = 50)
@@ -23,7 +23,7 @@ public class Product extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private DanhMuc danhMuc;
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
@@ -31,11 +31,11 @@ public class Product extends BaseEntity{
 
 
     @ManyToOne
-    @JoinColumn(name = "material_id", referencedColumnName = "id")
+    @JoinColumn(name = "fabric_id", referencedColumnName = "id")
     private Fabric material;
 
     @ManyToOne
-    @JoinColumn(name = "sole_material_id", referencedColumnName = "id")
+    @JoinColumn(name = "sole_id", referencedColumnName = "id")
     private Sole soleMaterial;
 
     @Column(name = "status")

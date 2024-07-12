@@ -29,7 +29,7 @@ public class BrandService implements IBrandService {
     @Override
     public void add(String name) {
         Brand newBrand = new Brand();
-        newBrand.setBrandName(name);
+        newBrand.setName(name);
         brandRepo.save(newBrand);
     }
 

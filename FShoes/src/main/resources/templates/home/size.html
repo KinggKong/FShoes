@@ -122,8 +122,8 @@
                                     <td th:text="${loop.index + 1}"></td>
                                     <td th:text="${size.id}"></td>
                                     <td th:text="${size.name}"></td>
-                                    <td th:text="${#temporals.format(size.createdAt, 'dd-MM-yyyy')}"></td>
-                                    <td th:text="${#temporals.format(size.updatedAt, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#temporals.format(size.created_at, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#temporals.format(size.updated_at, 'dd-MM-yyyy')}"></td>
                                     <td th:classappend="${size.status == 1 ? 'text-success' : 'text-danger'}"
                                         th:text="${size.status == 1 ? 'Đang hoạt động' : 'Ngừng hoạt động'}">
                                     </td>

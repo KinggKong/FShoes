@@ -98,7 +98,7 @@
                                                     <select id="brandId" class="form-control">
                                                         <option>Nike</option>
                                                         <option>Puma</option>
-                                                        <!--                                                                <option value="${b.id}">${b.name}</option>-->
+                                                        <!--                                                        <option value="${b.id}">${b.name}</option>-->
                                                     </select>
                                                 </div>
                                             </div>
@@ -173,54 +173,59 @@
                 <div class="form-group">
                     <label for="brand">Brand:</label>
                     <select class="form-control" id="brand">
-                        <option value="">-------</option>
-                        <option value="Nike">Nike</option>
+                        <option value=" ">-------</option>
+                        <option th:each="brand:${brands}" th:text="${brand.name}" th:value="${brand.id}"></option>
                         <!-- Add more options here -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="category">Category:</label>
                     <select class="form-control" id="category">
-                        <option value="">-------</option>
-                        <option value="Man">Man</option>
+                        <option value=" ">-------</option>
+                        <option th:each="cat:${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
                         <!-- Add more options here -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="size">Size:</label>
                     <select class="form-control" id="size">
-                        <option value="">-------</option>
-                        <option value="32">32</option>
+                        <option value=" ">-------</option>
+                        <option th:each="size:${sizes}" th:value="${size.id}" th:text="${size.name}"></option>
                         <!-- Add more options here -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="color">Color:</label>
                     <select class="form-control" id="color">
-                        <option value="">-------</option>
-                        <option value="Red">Red</option>
+                        <option value=" ">-------</option>
+                        <option th:each="color:${colors}" th:value="${color.id}" th:text="${color.name}"></option>
                         <!-- Add more options here -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="soleType">Loại đế:</label>
                     <select class="form-control" id="soleType">
-                        <option value="">-------</option>
-                        <option value="Nhựa">Nhựa</option>
+                        <option value=" ">-------</option>
+                        <option th:each="sole:${soles}" th:value="${sole.id}" th:text="${sole.name}">Nhựa</option>
                         <!-- Add more options here -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="fabricType">Loại vải:</label>
                     <select class="form-control" id="fabricType">
-                        <option value="">-------</option>
-                        <option value="Cotton">Cotton</option>
+                        <option value=" ">-------</option>
+                        <option th:each="fabric:${fabrics}" th:value="${fabric.id}" th:text="${fabric.name}">Cotton
+                        </option>
                         <!-- Add more options here -->
                     </select>
                 </div>
             </div>
         </div>
         <!--End Search Combobox-->
+
+        <div th:if="${error}" class="alert alert-danger">
+            <h5 th:text="${error}"></h5>
+        </div>
 
         <!--table-->
         <div class="row">
@@ -229,7 +234,7 @@
                     <div class="card-body">
                         <h4 class="card-title">Danh Sách Sản Phẩm</h4>
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="product-table">
                                 <thead>
                                 <tr>
                                     <th>Ảnh</th>
@@ -244,22 +249,26 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="sdt:${shoeDetails}">
                                     <td>
                                         <img src="">
                                     </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><label
-                                            class="badge badge-danger"></label>
+                                    <td th:text="${sdt.productCode}"></td>
+                                    <td th:text="${sdt.productOB.productName}"></td>
+                                    <td th:text="${sdt.color.name}"></td>
+                                    <td th:text="${sdt.size.name}"></td>
+                                    <td th:text="${sdt.price}"></td>
+                                    <td th:text="${sdt.quantity}"></td>
+                                    <td th:text="${sdt.status == 1?'Hoạt Động':'Nghỉ'}"></td>
+                                    <td class="text-danger">
+                                        <a th:href="@{'/shoes/'+ ${sdt.id}}"
+                                           onclick="showDeleteModal(this.href); return false;">
+                                            <i class="ti-close" style="margin-right: 15px"></i>
+                                        </a>
+                                        <a><i class="fas fa-edit"></i>
+
+                                        </a>
                                     </td>
-                                    <td class="text-danger"><i class="ti-close"
-                                                               style="margin-right: 15px"></i>
-                                        <i class="ti-pencil"></i></td>
 
                                 </tr>
                                 </tbody>
@@ -271,6 +280,25 @@
         </div>
         <!--End Table-->
 
+        <!-- Modal confirm delete -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel">Xác nhận xóa sản phẩm</h1>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn muốn xóa sản phẩm này kkhông ?
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteForm" method="get">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Xóa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!--End Content of the page-->
 
@@ -283,6 +311,73 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $('#brand, #category, #size, #color, #soleType, #fabricType').on('change', function () {
+                // Gọi hàm để gửi yêu cầu Ajax khi có thay đổi
+                filterProducts();
+            });
+
+
+            function filterProducts() {
+                // Lấy các giá trị đã chọn từ các select dropdown
+                var brandId = $('#brand').val();
+                var categoryId = $('#category').val();
+                var sizeId = $('#size').val();
+                var colorId = $('#color').val();
+                var soleTypeId = $('#soleType').val();
+                var fabricTypeId = $('#fabricType').val();
+
+                // Gửi yêu cầu Ajax
+                $.ajax({
+                    type: 'GET',
+                    url: '/shoes/filter-products', // Đường dẫn đến endpoint xử lý lọc sản phẩm của bạn
+                    data: {
+                        brandId: brandId,
+                        categoryId: categoryId,
+                        sizeId: sizeId,
+                        colorId: colorId,
+                        soleTypeId: soleTypeId,
+                        fabricTypeId: fabricTypeId
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        // Xử lý dữ liệu trả về từ yêu cầu Ajax
+                        // Ví dụ: cập nhật bảng sản phẩm hoặc danh sách sản phẩm lọc
+                        updateProductTable(response);
+                    },
+                    error: function (error) {
+                        console.error('Error filtering products:', error);
+                    }
+                });
+            }
+
+            function updateProductTable(products) {
+                // Xóa các hàng sản phẩm hiện tại trong bảng
+                $('#product-table tbody').empty();
+
+                console.log(products);
+
+                // Thêm lại các hàng sản phẩm mới từ dữ liệu đã lọc
+                products.forEach(function (product) {
+                    console.log(product)
+                    var row = '<tr>' +
+                        '<td><img src="' + product.image + '"></td>' +
+                        '<td>' + product.productCode + '</td>' +
+                        '<td>' + product.productOB.productName + '</td>' +
+                        '<td>' + product.color.name + '</td>' +
+                        '<td>' + product.size.name + '</td>' +
+                        '<td>' + product.quantity + '</td>' +
+                        '<td>' + product.status + '</td>' +
+                        '<td class="text-danger">' +
+                        '<a href="#"><i class="ti-close" style="margin-right: 15px"></i></a>' +
+                        '<a href="#"><i class="fas fa-edit"></i></a>' +
+                        '</td>' +
+                        '</tr>';
+                    $('#product-table tbody').append(row);
+                });
+            }
+
+
             // Hiện form khi click nút Insert
             $('#show-form-btn').on('click', function () {
                 $('#form-section').css('display', 'block');
@@ -295,8 +390,13 @@
                 $('#form-section').css('display', 'none');
             });
 
-
         })
+
+        //confirm before delete
+        function showDeleteModal(url) {
+            $('#deleteForm').attr('action', url);
+            $('#deleteModal').modal('show');
+        }
     </script>
 </div>
 <!--End Layout-->

@@ -16,25 +16,24 @@ import org.springframework.web.bind.annotation.*;
 public class ColorController {
     ColorService colorService;
 
-    @GetMapping("/")
-    public String index(Model model) {
+    @GetMapping("")
+    public String index() {
         return "home/color";
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public String AddColor(@RequestParam("colorName") String colorName) {
         colorService.addColor(colorName);
-        return "redirect:/colors/";
+        return "redirect:/colors";
     }
 
     @PostMapping("/update")
     public String UpdateColor(@RequestParam("colorId") Long colorId,
                               @RequestParam("colorName") String colorName) {
-        Color updateColor = new Color();
-        updateColor.setId(colorId);
+        Color updateColor = colorService.findColorById(colorId);
         updateColor.setName(colorName);
         colorService.updateColor(updateColor);
-        return "redirect:/colors/";
+        return "redirect:/colors";
     }
 
     @GetMapping("/detail/{id}")
@@ -46,8 +45,14 @@ public class ColorController {
     }
 
     @GetMapping("/{id}")
-    public String DeleteColor(@PathVariable("id") Long idColor) {
-        colorService.deleteColor(idColor);
-        return "redirect:/colors/";
+    public String DeleteColor(@PathVariable("id") Long idColor, Model model) {
+        try {
+            colorService.deleteColor(idColor);
+            return "redirect:/colors";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "home/color";
+        }
     }
+
 }

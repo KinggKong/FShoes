@@ -2,6 +2,7 @@ package com.example.fshoes.services.impl;
 
 import com.example.fshoes.entities.Color;
 import com.example.fshoes.repositories.ColorRepo;
+import com.example.fshoes.repositories.ShoeDetailRepo;
 import com.example.fshoes.services.IColorService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +17,7 @@ import java.util.List;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class ColorService implements IColorService {
     ColorRepo colorRepo;
+    private final ShoeDetailRepo shoeDetailRepo;
 
     @Override
     public List<Color> getColors() {
@@ -35,7 +37,11 @@ public class ColorService implements IColorService {
     }
 
     @Override
-    public void deleteColor(Long id) {
+    public void deleteColor(Long id) throws Exception {
+        if (shoeDetailRepo.existsByColor_Id(id)) {
+            throw new Exception("Không thể xóa màu vì màu đã sử dụng");
+
+        }
         colorRepo.deleteById(id);
     }
 

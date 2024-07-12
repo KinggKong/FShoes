@@ -1,11 +1,10 @@
 package com.example.fshoes.services.impl;
 
-import com.example.fshoes.entities.DanhMuc;
-import com.example.fshoes.repositories.DanhMucRepository;
+import com.example.fshoes.entities.Category;
+import com.example.fshoes.repositories.CategoryRepository;
 import com.example.fshoes.services.DanhMucService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,36 +13,36 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DanhMucServiceImpl implements DanhMucService {
-    private final DanhMucRepository danhMucRepository;
+    private final CategoryRepository categoryRepository;
     @Override
-    public List<DanhMuc> getDanhMuc() {
-        return danhMucRepository.findAll();
+    public List<Category> getDanhMuc() {
+        return categoryRepository.findAll();
     }
 
     @Override
-    public Page<DanhMuc> pagination(Pageable pageable) {
-        return danhMucRepository.findAll(pageable);
+    public Page<Category> pagination(Pageable pageable) {
+        return categoryRepository.findAll(pageable);
     }
 
     @Override
     public void addDanhMuc(String danhMucName) {
-        DanhMuc dm=new DanhMuc();
+        Category dm=new Category();
         dm.setName(danhMucName);
-        danhMucRepository.save(dm);
+        categoryRepository.save(dm);
     }
 
     @Override
     public void deleteDanhMuc(Long id) {
-        danhMucRepository.deleteById(id);
+        categoryRepository.deleteById(id);
     }
 
     @Override
-    public void updateDanhMuc(DanhMuc danhMuc) {
-        danhMucRepository.save(danhMuc);
+    public void updateDanhMuc(Category category) {
+        categoryRepository.save(category);
     }
 
     @Override
-    public DanhMuc findDanhMucById(Long id) {
-        return danhMucRepository.findById(id).orElse(null);
+    public Category findDanhMucById(Long id) {
+        return categoryRepository.findById(id).orElse(null);
     }
 }

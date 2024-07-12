@@ -74,7 +74,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label" th:text="'Create at: ' + ${fabric.getCreatedAt()}"> </label>
+                                <label for="recipient-name" class="col-form-label" th:text="'Create at: ' + ${fabric.getCreated_at()}"> </label>
 
                             </div>
 
@@ -110,7 +110,7 @@
                                 <tr th:each="fabric, loop : ${fabrics}">
                                     <td th:text="${loop.index + 1}"></td>
                                     <td th:text="${fabric.name}"></td>
-                                    <td th:text="${#temporals.format(fabric.createdAt, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#temporals.format(fabric.created_at, 'dd-MM-yyyy')}"></td>
                                     <td class="text-danger">
                                         <a th:href="@{'/fabrics/delete/'+${fabric.id}}">
                                             <i class="ti-close" style="margin-right: 15px"></i>

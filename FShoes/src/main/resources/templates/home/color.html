@@ -40,7 +40,7 @@
                             </div>
 
                             <div class="modal-body">
-                                <form action="/colors/" method="post">
+                                <form action="/colors" method="post">
                                     <div class="mb-3">
                                         <label for="recipient-name" class="col-form-label">Tên Màu Sắc:</label>
                                         <input type="text" name="colorName" class="form-control" id="recipient-name"
@@ -63,6 +63,11 @@
         </div>
         <!--End Button End Modal Insert-->
 
+        <!-- Trong file error-page.html hoặc trang cần hiển thị thông báo lỗi -->
+        <div th:if="${error}" class="alert alert-danger">
+            <h5 th:text="${error}"></h5>
+        </div>
+
         <!--Start Table-->
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
@@ -83,18 +88,19 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="color, loop : ${colors}">
-                                        <td th:text="${loop.index + 1}"></td>
-                                        <td th:text="${color.name}"></td>
-                                        <td th:text="${#temporals.format(color.createdAt, 'dd-MM-yyyy')}"></td>
-                                        <td class="text-danger">
-                                            <a th:href="@{'/colors/'+${color.id}}">
-                                                <i class="ti-close" style="margin-right: 15px"></i>
-                                            </a>
-                                            <button class="updateClick" th:data="${color.id}"><i class="ti-pencil"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <tr th:each="color, loop : ${colors}">
+                                    <td th:text="${loop.index + 1}"></td>
+                                    <td th:text="${color.name}"></td>
+                                    <td th:text="${#temporals.format(color.created_at, 'dd-MM-yyyy')}"></td>
+                                    <td class="text-danger">
+                                        <a th:href="@{'/colors/'+${color.id}}"
+                                           onclick="showDeleteModal(this.href); return false;">
+                                            <i class="ti-close" style="margin-right: 15px"></i>
+                                        </a>
+                                        <a class="updateClick" th:data="${color.id}"><i class="ti-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
 
@@ -137,6 +143,27 @@
         </div>
         <!--End Modal Update-->
 
+        <!-- Modal confirm delete -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel">Xác nhận xóa màu sắc này</h1>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn muốn xóa màu sắc này không ?
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteForm" method="get">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Xóa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End modal delete-->
+
     </div>
     <!--End Content of the page-->
 
@@ -164,6 +191,11 @@
             }
         });
 
+        //confirm before delete
+        function showDeleteModal(url) {
+            $('#deleteForm').attr('action', url);
+            $('#deleteModal').modal('show');
+        }
     </script>
 </div>
 <!--End Layout-->

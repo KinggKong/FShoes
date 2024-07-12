@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "productdetail")
-public class ProductDetail extends BaseEntity{
+public class ProductDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +18,9 @@ public class ProductDetail extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
+    private Product productOB;
 
-   @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "size_id", referencedColumnName = "id")
     private Size size;
     @ManyToOne
@@ -30,8 +30,8 @@ public class ProductDetail extends BaseEntity{
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "sale_price")
-    private float salePrice;
+    @Column(name = "price")
+    private double price;
 
     @Column(name = "product_code", length = 50)
     private String productCode;
