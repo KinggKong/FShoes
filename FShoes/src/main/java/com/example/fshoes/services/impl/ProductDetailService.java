@@ -7,14 +7,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class ShoeDetailService implements IShoeDetailService {
+public class ProductDetailService implements IShoeDetailService {
     ShoeDetailRepo shoeDetailRepo;
 
     @Override

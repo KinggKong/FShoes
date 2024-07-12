@@ -2,7 +2,7 @@ package com.example.fshoes.controllers;
 
 import com.example.fshoes.entities.Product;
 import com.example.fshoes.entities.ProductDetail;
-import com.example.fshoes.services.impl.ShoeDetailService;
+import com.example.fshoes.services.impl.ProductDetailService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +18,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class ShoeController {
-    ShoeDetailService shoeDetailService;
+    ProductDetailService prodcutDetailService;
 
     @GetMapping("")
     public String index(Model model) {
@@ -36,14 +36,20 @@ public class ShoeController {
             @RequestParam(name = "colorId", defaultValue = "") Long colorId,
             @RequestParam(name = "sizeId", defaultValue = "") Long sizeId
     ) {
-        List<ProductDetail> listFilter = shoeDetailService.filterShoeDetails(brandId, categoryId, fabricTypeId, soleTypeId, colorId, sizeId);
+        List<ProductDetail> listFilter = prodcutDetailService.filterShoeDetails(brandId, categoryId, fabricTypeId, soleTypeId, colorId, sizeId);
         return ResponseEntity.ok(listFilter);
     }
 
     @GetMapping("/{shoeId}")
     public String deleteShoe(@PathVariable Long shoeId, Model model) {
-        shoeDetailService.deleteShoeDetails(shoeId);
+        prodcutDetailService.deleteShoeDetails(shoeId);
         return "redirect:/shoes";
     }
+
+//    @PostMapping("/")
+//    public ResponseEntity<Product> addProductWithDetails(@RequestBody ProductRequest productRequest) {
+//        Product createdProduct = prodcutDetailService.addProductWithDetails(productRequest);
+//        return ResponseEntity.ok(createdProduct);
+//    }
 
 }
