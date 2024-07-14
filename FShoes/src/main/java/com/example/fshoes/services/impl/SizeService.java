@@ -48,6 +48,7 @@ public class SizeService implements ISizeService {
 
     @Override
     public void updateSize(Size size) {
+//        size.setStatus(1);
         sizeRepo.save(size);
     }
 

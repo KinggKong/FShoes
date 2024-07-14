@@ -14,6 +14,8 @@
 <body>
 <div layout:fragment="content">
 
+
+
     <!--Content of the page-->
     <div class="content-wrapper">
         <h3>List Of Size</h3>
@@ -28,7 +30,7 @@
             <span th:text="${message1}"></span>
         </div>
 
-        <!-- Hiển thị thông báo sau khi xóa thành công -->
+        <!-- Hiển thị thông báo sau khi sửa thành công -->
         <div th:if="${message2}" class="alert alert-primary" role="alert" id="success-alert2">
             <span th:text="${message2}"></span>
         </div>
@@ -56,6 +58,23 @@
                                         <input type="text" name="sizeName" class="form-control" id="recipient-name"
                                                placeholder="Enter size name" required>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="createdAt" class="col-form-label">Created At:</label>
+                                        <input type="date" name="createdAt" class="form-control" id="createdAt"
+                                               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updatedAt" class="col-form-label">Updated At:</label>
+                                        <input type="date" name="updatedAt" class="form-control" id="updatedAt"
+                                               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly>
+                                    </div>
+                                    <!--                                    <div class="mb-3">-->
+                                    <!--                                        <label for="status" class="col-form-label">Status:</label>-->
+                                    <!--                                        <select name="status" class="form-select" disabled>-->
+                                    <!--                                            <option value="1">Đang hoạt động</option>-->
+                                    <!--                                            <option value="0">Ngừng hoạt động</option>-->
+                                    <!--                                        </select>-->
+                                    <!--                                    </div>-->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                                         </button>
@@ -70,35 +89,42 @@
         </div>
 
 
-        <!-- Update Modal -->
-        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel1"
-             aria-hidden="true">
+        <!-- Modal Update -->
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel1">Update size</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="updateModalLabel">Update Size</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="/sizes/update" method="post">
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Size Name:</label>
-                                <input type="text" name="name" class="form-control" id="recipient-name-update"
+                                <input hidden="hidden" name="sizeId" id="updateId">
+                                <label for="updateName" class="col-form-label">Tên Size:</label>
+                                <input type="text" name="sizeName" class="form-control" id="updateName"
                                        placeholder="Enter size name" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="updateStatus" class="col-form-label">Trạng Thái:</label>
+                                <select name="status" class="form-control" id="updateStatus">
+                                    <option value="1">Đang hoạt động</option>
+                                    <option value="0">Ngừng hoạt động</option>
+                                </select>
+                            </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                                </button>
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Cập Nhật</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- End Modal Update -->
 
 
+        <!--Table-->
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
@@ -133,9 +159,8 @@
                                             <i class="ti-close" style="margin-right: 15px"></i>
                                         </a>
 
-                                        <a th:href="@{/sizes/detail/{id}(id=${size.id})}" data-bs-toggle="modal"
-                                           data-bs-target="#detailModal">
-                                            <i class="ti-pencil"></i>
+
+                                        <a class="updateClick" th:data="${size.id}"><i class="ti-pencil"></i>
                                         </a>
 
                                     </td>
@@ -147,6 +172,8 @@
                 </div>
             </div>
         </div>
+        <!--End Table-->
+
 
         <!-- Phân trang -->
         <nav aria-label="Page navigation example" class="d-flex justify-content-end">
@@ -170,10 +197,43 @@
                 </li>
             </ul>
         </nav>
+        <!--End Phân trang -->
 
     </div>
+
+    <!--Ajax-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.updateClick', function () {
+                var sizeId = $(this).attr('data');
+                console.log(sizeId);
+                activity(sizeId);
+            });
+
+            function activity(sizeId) {
+                $.ajax({
+                    url: "/sizes/detail/" + sizeId,
+                    type: "GET",
+                    success: function (data) {
+                        $('#updateName').val(data.name);
+                        $('#updateId').val(data.id);
+                        // $('#updateCreateAt').val(data.createdAt); // Điền giá trị createAt
+                        // $('#updateUpdateAt').val(data.updatedAt); // Điền giá trị createAt
+                        // $('#updateUpdateAt').val(new Date().toLocaleString()); // Điền ngày tháng hiện tại vào updateAt
+                        $('#updateStatus').val(data.status); // Điền giá trị trạng thái
+                        $('#updateModal').modal('show');
+                    },
+                    error: function () {
+                        alert("Lỗi truy cập");
+                    }
+                });
+            }
+        });
+    </script>
+    <!--Ajax-->
+
+
 </div>
 
 </body>
 </html>
-
