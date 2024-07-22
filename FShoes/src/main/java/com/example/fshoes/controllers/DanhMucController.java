@@ -1,9 +1,12 @@
 package com.example.fshoes.controllers;
 
-import com.example.fshoes.entities.Color;
-import com.example.fshoes.entities.DanhMuc;
+import com.example.fshoes.entities.Category;
 import com.example.fshoes.services.DanhMucService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,23 +22,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/danh-muc")
 public class DanhMucController {
     private final DanhMucService danhMucService;
+    private static final int Page_size = 5;
 
-    @GetMapping("")
-    public String index(Model model) {
-        model.addAttribute("danhmucs", danhMucService.getDanhMuc());
+    @GetMapping("/list")
+    public String index(Model model,@RequestParam(name = "p", defaultValue = "0") int p) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(p, Page_size, sort);
+        Page<Category> page = danhMucService.pagination(pageable);
+        int totalPages = page.getTotalPages();
+        model.addAttribute("danhmucs", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", p);
         return "home/danhmuc";
     }
 
     @PostMapping("/")
     public String AddDanhMuc(@RequestParam("danhMucName") String danhMucName) {
         danhMucService.addDanhMuc(danhMucName);
-        return "redirect:/danh-muc";
+        return "redirect:/danh-muc/list";
     }
 
     @PostMapping("/update")
     public String UpdateDanhMuc(@RequestParam("danhMucId") Long danhMucId,
                                 @RequestParam("danhMucName") String danhMucName) {
-        DanhMuc updateDm = new DanhMuc();
+        Category updateDm = new Category();
         updateDm.setId(danhMucId);
         updateDm.setName(danhMucName);
         danhMucService.updateDanhMuc(updateDm);
@@ -45,7 +55,7 @@ public class DanhMucController {
     @GetMapping("/detail/{id}")
     @ResponseBody
     public ResponseEntity<?> getDanhMucDetail(@PathVariable("id") Long danhMucId, Model model) {
-        DanhMuc dm = danhMucService.findDanhMucById(danhMucId);
+        Category dm = danhMucService.findDanhMucById(danhMucId);
         model.addAttribute("danhmuc", danhMucService.findDanhMucById(danhMucId));
         return ResponseEntity.ok(dm);
     }
@@ -53,6 +63,6 @@ public class DanhMucController {
     @GetMapping("/{id}")
     public String DeleteDanhMuc(@PathVariable("id") Long idDanhMuc) {
         danhMucService.deleteDanhMuc(idDanhMuc);
-        return "redirect:/danh-muc";
+        return "redirect:/danh-muc/list";
     }
 }

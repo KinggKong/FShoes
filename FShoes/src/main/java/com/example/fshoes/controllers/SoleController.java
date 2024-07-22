@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class SoleController {
     SoleService soleService;
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model) {
         model.addAttribute("sole", new Sole());
         return "home/sole";
@@ -22,7 +22,7 @@ public class SoleController {
     @PostMapping("/")
     public String AddSole(@RequestParam("soleName") String soleName) {
         soleService.add(soleName);
-        return "redirect:/soles/";
+        return "redirect:/soles";
     }
     @GetMapping("/detail/{id}")
     public String getSoleDetail(@PathVariable("id") Long soleId, Model model) {
@@ -33,11 +33,11 @@ public class SoleController {
     @PostMapping("/update")
     public String UpdateSole(@ModelAttribute("sole") Sole sole) {
         soleService.update(sole);
-        return "redirect:/soles/";
+        return "redirect:/soles";
     }
     @GetMapping("/delete/{id}")
     public String DeleteSole(@PathVariable("id") Long idSole) {
         soleService.delete(idSole);
-        return "redirect:/soles/";
+        return "redirect:/soles";
     }
 }

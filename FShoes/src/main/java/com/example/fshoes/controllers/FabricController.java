@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class FabricController {
     FabricService fabricService;
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model) {
         model.addAttribute("fabric", new Fabric());
         return "home/fabric";

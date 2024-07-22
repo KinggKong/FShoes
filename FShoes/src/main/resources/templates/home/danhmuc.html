@@ -119,6 +119,27 @@
             </div>
         </div>
     </div>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/danh-muc/list(p=0)}">First</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/danh-muc/list(p=${currentPage - 1})}">Previous</a>
+            </li>
+
+            <!-- Hiển thị trang hiện tại -->
+            <li class="page-item active">
+                <a class="page-link" th:href="@{/danh-muc/list(p=${currentPage})}" th:text="${currentPage + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/danh-muc/list(p=${currentPage + 1})}">Next</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/danh-muc/list(p=${totalPages - 1})}">Last</a>
+            </li>
+        </ul>
+    </nav>
 
     <script type="text/javascript">
         $(document).ready(function () {

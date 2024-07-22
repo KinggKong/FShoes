@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="UTF-8"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{home/index.html}" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bán hàng tại quầy</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="page-wrapper mt-5" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6"
+         data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed" style="height: 400px">
+        <div class="body-wrapper" style="width: 1900px; margin-left: 10px;">
+            <div class="container-fluid content-container">
+                <div class="row">
+                    <div class="col-lg-8 d-flex align-items-strech">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                    <div class="mb-3 mb-sm-0">
+                                        <h3 class="card-title fw-semibold">Quản lý hóa đơn</h3>
+                                    </div>
+                                    <div>
+                                        <form action="/homepage/createOrder" method="post">
+                                            <button type="submit" class="btn btn-success">Tạo giỏ hàng</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a th:each="order, index : ${orders}"
+                                           class="nav-link btn selectOrder"
+                                           th:classappend="${index.index == 0} ? ' active' : ''"
+                                           th:id="'nav-home-tab-' + ${index.index}" data-bs-toggle="tab"
+                                           th:data-bs-target="'#nav-home-' + ${index.index}" type="button"
+                                           role="tab"
+                                           th:aria-controls="'nav-home-' + ${index.index}"
+                                           th:aria-selected="${index.index == 0} ? 'true' : 'false'"
+                                           th:data="${order.id}"
+                                        >
+                                            <span th:text="${order.id != null ? 'HD' + order.id : '###'}"></span>
+                                        </a>
+                                    </div>
+                                </nav>
+                                <a class="btn btn-success mt-3 " style="margin-left: 890px;margin-bottom: 10px"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#exampleModal">Thêm sản phẩm</a>
+                                <div class="text-center d-flex align-items-center justify-content-center">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Product Name</th>
+                                            <th>Brand Name</th>
+                                            <th>Category Name</th>
+                                            <th>Quantity</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="table_orderdetail">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="margin-bottom: 200px">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Danh sách sản phẩm chi tiết</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Kích cỡ</th>
+                            <th>Đơn giá</th>
+                            <th>Số Lượng</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="productdetail, index : ${productdetails}">
+                        <tr>
+                            <td th:text="${index.count}"></td>
+                            <td th:text="${productdetail.id}" hidden></td>
+                            <td>
+                                [[${productdetail.categoryName}]]
+                                [[${productdetail.brandName}]]
+                                [[${productdetail.productName}]]
+                                [[${productdetail.colorName}]]
+                                [[${productdetail.fabricName}]]
+                            </td>
+                            <td th:text="${productdetail.sizeName}"></td>
+                            <td th:text="${productdetail.price}"></td>
+                            <td th:text="${productdetail.quantity}"></td>
+                            <th>
+                                <form method="post" th:action="@{/homepage/createCartDetail}">
+                                    <input type="hidden" name="orderId" class="orderDetailId"/>
+                                    <input type="hidden" name="productDetailId" th:value="${productdetail.id}"/>
+                                    <input type="hidden" name="quantity" value="1"/>
+                                    <button type="submit" class="btn btn-success">Mua</button>
+                                </form>
+                            </th>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="KH" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="margin-bottom: 200px">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Khq">Danh sách khách hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên</th>
+                            <th>Số điện thoại</th>
+                            <th>Giới tính</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="kh, index : ${khachHangs}">
+                        <tr>
+                            <td th:text="${index.count}"></td>
+                            <td th:text="${kh.id}" hidden></td>
+                            <td th:text="${kh.name}"></td>
+                            <td th:text="${kh.phone}"></td>
+                            <td th:text="${kh.gender}"></td>
+                            <th>
+                                <a th:href="@{'/homepage/khach-hang/'+${kh.id}}">Chọn</a>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-wrapper mt-5" id="main-wrapper2" data-layout="vertical" data-navbarbg="skin6"
+         data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="body-wrapper" style="width: 1900px; margin-left: 10px;">
+            <div class="container-fluid content-container">
+                <div class="row">
+                    <div class="col-lg-8 d-flex align-items-strech">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                    <div class="mb-3 mb-sm-0">
+                                        <h3 class="card-title fw-semibold mt-3">Thông tin khách hàng</h3>
+                                        <form th:object="${KH}">
+                                            Tên khách hàng: <span th:text="${KH.name}"></span> <br>
+                                            Số điện thoại: <span  th:text="${KH.phone}"></span>  <br>
+                                            Địa chỉ: <span  th:text="${KH.gender}"></span>
+                                        </form>
+                                    </div>
+                                    <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#KH">Chọn khách hàng</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="page-wrapper mt-5" id="main-wrapper3" data-layout="vertical" data-navbarbg="skin6"
+         data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="body-wrapper" style="width: 1900px; margin-left: 10px;">
+            <div class="container-fluid content-container">
+                <div class="row">
+                    <div class="col-lg-8 d-flex align-items-strech">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                    <div class="mb-3 mb-sm-0">
+                                        <h3 class="card-title fw-semibold mt-3">Thông tin thanh toán</h3>
+
+                                    </div>
+                                    <form>
+                                        Tổng tiền: <span></span> <br>
+                                        Phương thức thanh toán: <span></span>
+                                        <a class="btn btn-success">Thanh Toán</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.selectOrder', function () {
+                var orderId = $(this).attr('data');
+                order(orderId);
+                orderDetail(orderId);  // Gọi hàm để lấy danh sách OrderDetail
+            });
+
+
+            function order(orderId) {
+                $.ajax({
+                    url: '/homepage/order/' + orderId,
+                    type: "GET",
+                    success: function (data) {
+                        $('.orderDetailId').val(data.id);  // Sửa đổi selector ở đây nếu cần
+                    },
+                    error: function () {
+                        alert("Loi don hang");
+                    }
+                });
+            }
+
+            function orderDetail(orderId) {
+                $.ajax({
+                    url: '/homepage/orderDetail/' + orderId,  // Chỉnh sửa URL nếu cần
+                    type: "GET",
+                    success: function (data) {
+                        var tbody = $('.table_orderdetail');
+                        tbody.empty();  // Xóa nội dung hiện tại của tbody
+                        // Duyệt qua dữ liệu và thêm vào bảng
+                        $.each(data, function (index, od) {
+                            var row = '<tr>' +
+                                '<th>' + (index + 1) + '</th>' +
+                                '<td>' + od.productName + '</td>' +
+                                '<td>' + od.brandName + '</td>' +
+                                '<td>' + od.categoryName + '</td>' +
+                                '<td>' +
+                                '<form action="/order-detail/update/' + od.id + '" method="post" style="display: inline;">' +
+                                '<input type="hidden" value="' + od.productDetailID + '" name="productDetailID">' +
+                                '<input type="hidden" value="' + od.orderId + '" name="orderID">' +
+                                '<input type="hidden" value="1" name="quantity">' +
+                                '<input type="hidden" value="minus" name="method">' +
+                                '<button class="btn btn-outline-dark" ' + (od.quantity == 1 ? "disabled" : "") + '>-</button>' +
+                                '</form>' +
+                                '<span style="margin: 6px 8px 0;">' + od.quantity + '</span>' +
+                                '<form action="/order-detail/update/' + od.id + '" method="post" style="display: inline;">' +
+                                '<input type="hidden" value="' + od.productDetailID + '" name="productDetailID">' +
+                                '<input type="hidden" value="' + od.orderId + '" name="orderID">' +
+                                '<input type="hidden" value="1" name="quantity">' +
+                                '<input type="hidden" value="plus" name="method">' +
+                                '<button class="btn btn-outline-dark">+</button>' +
+                                '</form>' +
+                                '</td>' +
+                                '</tr>';
+                            tbody.append(row);
+                        });
+                    },
+                    error: function () {
+                        alert("Loi san pham");
+                    }
+                });
+            }
+        });
+        function selectCustomer(khId){
+            $.ajax({
+                url: "/homepage/khach-hang/"+khId,
+                method: "GET",
+                success:function (data){
+
+                },
+                error:function (){
+                    alert("Loi khach hang")
+                }
+            })
+        }
+        $(document).ready(function (){
+            $(document).on('click','success',function (){
+
+            })
+        })
+    </script>
+</div>
+</body>
+</html>

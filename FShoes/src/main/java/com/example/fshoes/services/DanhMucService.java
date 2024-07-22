@@ -1,22 +1,21 @@
 package com.example.fshoes.services;
 
-import com.example.fshoes.entities.Color;
-import com.example.fshoes.entities.DanhMuc;
+import com.example.fshoes.entities.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface DanhMucService {
-    List<DanhMuc> getDanhMuc();
+    List<Category> getDanhMuc();
 
-    Page<DanhMuc> pagination(Pageable pageable);
+    Page<Category> pagination(Pageable pageable);
 
     void addDanhMuc(String danhMucName);
 
     void deleteDanhMuc(Long id);
 
-    void updateDanhMuc(DanhMuc danhMuc);
+    void updateDanhMuc(Category category);
 
-    DanhMuc findDanhMucById(Long id);
+    Category findDanhMucById(Long id);
 }

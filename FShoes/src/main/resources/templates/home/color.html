@@ -78,7 +78,6 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Màu Sắc</th>
-                                    <th>Ngày Tạo</th>
                                     <th>Hành Động</th>
                                 </tr>
                                 </thead>
@@ -86,13 +85,12 @@
                                     <tr th:each="color, loop : ${colors}">
                                         <td th:text="${loop.index + 1}"></td>
                                         <td th:text="${color.name}"></td>
-                                        <td th:text="${#temporals.format(color.createdAt, 'dd-MM-yyyy')}"></td>
                                         <td class="text-danger">
                                             <a th:href="@{'/colors/'+${color.id}}">
                                                 <i class="ti-close" style="margin-right: 15px"></i>
                                             </a>
-                                            <button class="updateClick" th:data="${color.id}"><i class="ti-pencil"></i>
-                                            </button>
+                                            <a class="updateClick" th:data="${color.id}"><i class="ti-pencil"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>

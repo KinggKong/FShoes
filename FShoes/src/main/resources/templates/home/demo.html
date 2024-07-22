@@ -1,0 +1,41 @@
+<div class="page-wrapper mt-5" id="main-wrapper1" data-layout="vertical" data-navbarbg="skin6"
+     data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="body-wrapper" style="width: 1900px; margin-left: 10px;">
+        <div class="container-fluid content-container">
+            <div class="row">
+                <div class="col-lg-8 d-flex align-items-strech">
+                    <div class="card w-100">
+                        <div class="card-body">
+                            <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                <div class="mb-3 mb-sm-0">
+                                    <h3 class="card-title fw-semibold mt-3">Thông tin khách hàng</h3>
+                                </div>
+                                <form class="w-50" th:object="${KH}">
+                                    <input type="hidden" th:field="*{id}" />
+                                    <div>
+                                        <span>Tên khách hàng:</span>
+                                        <input type="text" class="form-control" readonly th:field="*{ten}" />
+                                    </div>
+                                    <div>
+                                        <span>Số điện thoại:</span>
+                                        <input type="text" class="form-control" readonly th:field="*{phone}" />
+                                    </div>
+                                    <div>
+                                        <span>Địa chỉ:</span>
+                                        <input type="text" class="form-control" readonly th:field="*{password}" />
+                                    </div>
+                                </form>
+
+                                <button class="btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalKH"
+                                        style="height: 35px;border-radius: 7px;color: black;font-size: 15px">
+                                    Chọn Khách Hàng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

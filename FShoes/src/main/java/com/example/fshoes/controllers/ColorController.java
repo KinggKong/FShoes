@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ColorController {
     ColorService colorService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model) {
         return "home/color";
     }
@@ -24,7 +24,7 @@ public class ColorController {
     @PostMapping("/")
     public String AddColor(@RequestParam("colorName") String colorName) {
         colorService.addColor(colorName);
-        return "redirect:/colors/";
+        return "redirect:/colors";
     }
 
     @PostMapping("/update")
@@ -34,7 +34,7 @@ public class ColorController {
         updateColor.setId(colorId);
         updateColor.setName(colorName);
         colorService.updateColor(updateColor);
-        return "redirect:/colors/";
+        return "redirect:/colors";
     }
 
     @GetMapping("/detail/{id}")
@@ -48,6 +48,6 @@ public class ColorController {
     @GetMapping("/{id}")
     public String DeleteColor(@PathVariable("id") Long idColor) {
         colorService.deleteColor(idColor);
-        return "redirect:/colors/";
+        return "redirect:/colors";
     }
 }
